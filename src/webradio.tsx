@@ -4,6 +4,11 @@ interface RadioState {
     selectedTab:string
 }
 
+interface Tab {
+    title: string
+    content: JSX.Element
+}
+
 export default class WebradioApp extends React.Component<{}, RadioState> {
     constructor(params:any) {
         super(params)
@@ -18,11 +23,18 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         ]
     }
 
+    changeTab(tab:Tab, e)  {
+        this.setState({
+            selectedTab: tab.title
+        })
+    }
+
     render() {
         const tabs = this.tabs
         const selectedTabName ="Search" //"Favorites"
         const selectedTab = tabs.find(tab => tab.title === selectedTabName)
-        const headerContent = tabs.map(tab => <span className={tab === selectedTab ? "tab selected" : "tab"} key={tab.title} >{tab.title}</span> )
+        const headerContent = tabs.map(tab => <span className={tab === selectedTab ? "tab selected" : "tab"} 
+                                                    key={tab.title} onClick={e=>this.changeTab(tab,e)} >{tab.title}</span> )
 
         return (
             <div className="radio-App">
