@@ -5,17 +5,18 @@ interface SearchState {
     search: RadioSearch|undefined
 }
 
+let currentSearch:RadioSearch|undefined // only one search active at a time
+
 export default class Search extends React.Component<{}, SearchState> {
     constructor(props) {
         super(props)
         this.state = {
-            search: undefined
+            search: currentSearch
         }
     }
 
     async searchTextChanged(e) {
         const query = e.target.value;
-        console.log("Search: ", query)
         this.scheduleSearch(query)
     }
 
@@ -24,6 +25,7 @@ export default class Search extends React.Component<{}, SearchState> {
         this.searchTimer = clearTimeout(this.searchTimer)
         this.searchTimer = setTimeout(async () => {
             let search = new RadioSearch({name: query})
+            currentSearch = search
             await search.search()
             this.setState({
                 search
@@ -43,7 +45,8 @@ export default class Search extends React.Component<{}, SearchState> {
         }
         return (
             <div className="search">
-                <input defaultValue="" onInput={ (e) => { this.searchTextChanged(e) } }></input>
+                <input defaultValue={radioSearch ? radioSearch.query.name : ""} 
+                      onInput={ (e) => { this.searchTextChanged(e) } }></input>
                 <div className="results" >
                     Search results {/* todo: replace with StationList  */}
                     {results}

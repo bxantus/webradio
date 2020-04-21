@@ -16,7 +16,7 @@ export interface Station {
 
 // api docs at: https://www.radio-browser.info/webservice#General
 export class RadioSearch {
-    private query: Query
+    public query: Query
     private offset = 0
 
     results:Station[] = []

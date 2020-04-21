@@ -1,8 +1,11 @@
 import React from 'react';
 import RadioSearch from './components/search'
+import RadioPlayer from './components/player'
+import { Station } from './functions/radioSearch';
 
 interface RadioState {
     selectedTab:string
+    selectedStation:Station|undefined
 }
 
 interface Tab {
@@ -12,14 +15,22 @@ interface Tab {
 
 export default class WebradioApp extends React.Component<{}, RadioState> {
     state:RadioState = {
-        selectedTab: "Search"
+        selectedTab: "Search",
+        selectedStation: {
+            id: 1,
+            name: "X-id",
+            tags: "alternative, rock",
+            country: "iceland",
+            language: "",
+            icon: ""
+        }
     }
 
     get tabs() {
         return [
             { title: "Search", content: <RadioSearch>Search content</RadioSearch> },
             { title: "Favorites", content: <div>My favorites</div> },
-            { title: "Play", content: <div>Play Z station</div> },
+            { title: "Play", content: <RadioPlayer station={this.state.selectedStation}></RadioPlayer> },
         ]
     }
 
