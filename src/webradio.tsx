@@ -28,16 +28,23 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
 
     get tabs() {
         return [
-            { title: "Search", content: <RadioSearch>Search content</RadioSearch> },
+            { title: "Search", content: <RadioSearch onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
             { title: "Favorites", content: <div>My favorites</div> },
             { title: "Play", content: <RadioPlayer station={this.state.selectedStation}></RadioPlayer> },
         ]
     }
 
-    changeTab(tab:Tab, e)  {
+    changeTab(tab:Tab)  {
         this.setState({
             selectedTab: tab.title
         })
+    }
+
+    stationSelected(station:Station) {
+        this.setState({
+            selectedStation: station
+        })
+        this.changeTab(this.tabs[2])  
     }
 
     render() {
@@ -45,7 +52,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         const selectedTabName = this.state.selectedTab
         const selectedTab = tabs.find(tab => tab.title === selectedTabName)
         const headerContent = tabs.map(tab => <span className={tab === selectedTab ? "tab selected" : "tab"} 
-                                                    key={tab.title} onClick={e=>this.changeTab(tab,e)} >{tab.title}</span> )
+                                                    key={tab.title} onClick={e=>this.changeTab(tab)} >{tab.title}</span> )
 
         return (
             <div className="radio-App">

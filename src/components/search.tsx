@@ -12,7 +12,7 @@ interface SearchProps {
 
 let currentSearch:RadioSearch|undefined // only one search active at a time
 
-export default class Search extends React.Component<{}, SearchState> {
+export default class Search extends React.Component<SearchProps, SearchState> {
     constructor(props) {
         super(props)
         this.state = {
@@ -50,7 +50,7 @@ export default class Search extends React.Component<{}, SearchState> {
                       onInput={ (e) => { this.searchTextChanged(e) } }></input>
                 <div className="results" >
                     Search results
-                    <StationList stations={results} ></StationList>
+                    <StationList stations={results} onStationSelected={this.props?.onStationSelected}></StationList>
                 </div>  
             </div>
         )

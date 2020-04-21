@@ -10,7 +10,7 @@ export default class StationList extends React.Component<StationsProps, {}> {
     render() {
         const stations = this.props.stations;
         if (stations) {
-            let results = stations.map(station => <div>
+            let results = stations.map(station => <div onClick={ () => this.props?.onStationSelected?.(station) } key={station.id}>
                                                  <h3>{station.name}</h3>
                                                  <div>{station.country}</div>
                                                  <hr></hr>
