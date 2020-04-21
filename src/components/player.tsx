@@ -10,7 +10,7 @@ export default class Player extends React.Component<PlayerProps, {}> {
 
     render() {
         const station = this.props.station;
-        if (!station) return undefined
+        if (!station) return null
         return <div>
                     <h2>{station.name}</h2>
                     <p>in: {station.country}</p>

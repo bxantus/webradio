@@ -1,8 +1,13 @@
 import React from 'react';
-import { RadioSearch } from '../functions/radioSearch';
+import { RadioSearch, Station } from '../functions/radioSearch';
+import StationList from './stationList';
 
 interface SearchState {
     search: RadioSearch|undefined
+}
+
+interface SearchProps {
+    onStationSelected?:(station:Station)=> any
 }
 
 let currentSearch:RadioSearch|undefined // only one search active at a time
@@ -35,21 +40,17 @@ export default class Search extends React.Component<{}, SearchState> {
 
     render() {
         const radioSearch = this.state.search; 
-        let results:JSX.Element[] = []
+        let results:Station[]|undefined 
         if (radioSearch) {
-            results = radioSearch.results.map(station => <div>
-                                                 <h3>{station.name}</h3>
-                                                 <div>{station.country}</div>
-                                                 <hr></hr>
-                                               </div> )
+            results = radioSearch.results
         }
         return (
             <div className="search">
                 <input defaultValue={radioSearch ? radioSearch.query.name : ""} 
                       onInput={ (e) => { this.searchTextChanged(e) } }></input>
                 <div className="results" >
-                    Search results {/* todo: replace with StationList  */}
-                    {results}
+                    Search results
+                    <StationList stations={results} ></StationList>
                 </div>  
             </div>
         )
