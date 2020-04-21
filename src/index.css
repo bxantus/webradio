@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.tabs {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.tab {
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+.tab.selected {
+  font-weight: bold;
+}
+
+/* temp */
+.radio-App {
+  padding-left: 2em;
+}
