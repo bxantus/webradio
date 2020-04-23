@@ -1,4 +1,4 @@
-import React, { DOMElement } from 'react';
+import React from 'react';
 import { RadioSearch, Station } from '../functions/radioSearch';
 import StationList from './stationList';
 
@@ -19,7 +19,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
         this.state = {
             search: currentSearch
         }
-        this.searchList = React.createRef<HTMLElement>()
+        this.searchList = React.createRef<HTMLDivElement>()
     }
 
     async searchTextChanged(e) {
@@ -28,7 +28,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
     }
 
     private searchTimer
-    private searchList:React.RefObject<HTMLElement>
+    private searchList:React.RefObject<HTMLDivElement>
 
     async scheduleSearch(query:string) {
         this.searchTimer = clearTimeout(this.searchTimer)
