@@ -8,6 +8,7 @@ interface SearchState {
 
 interface SearchProps {
     onStationSelected?:(station:Station)=> any
+    className?: string
 }
 
 let currentSearch:RadioSearch|undefined // only one search active at a time
@@ -45,7 +46,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
             results = radioSearch.results
         }
         return (
-            <div className="search flexible vertical">
+            <div className={"search flexible vertical " + (this.props.className ?? "")}>
                 <input defaultValue={radioSearch ? radioSearch.query.name : ""} 
                       onInput={ (e) => { this.searchTextChanged(e) } }></input>
                 <div className="results flexible vertical" style={{flex: 1}} >

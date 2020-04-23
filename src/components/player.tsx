@@ -3,6 +3,7 @@ import { Station } from "../functions/radioSearch"
 
 interface PlayerProps {
     station:Station|undefined
+    className:string
 }
 
 export default class Player extends React.Component<PlayerProps, {}> {
@@ -11,7 +12,7 @@ export default class Player extends React.Component<PlayerProps, {}> {
     render() {
         const station = this.props.station;
         if (!station) return null
-        return <div>
+        return <div className={this.props.className}>
                     <h2>{station.name}</h2>
                     <p>in: {station.country}</p>
                     <p>tags: {station.tags}</p>

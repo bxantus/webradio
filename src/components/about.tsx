@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default class About extends React.Component {
+export default class About extends React.Component<{className:string}> {
     render() {
-        return <div className="about">
+        return <div className={"about " + this.props.className} >
             <h2>About</h2>
             <p>
                 Open source webradio implementation. 

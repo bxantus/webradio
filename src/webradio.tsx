@@ -11,7 +11,7 @@ interface RadioState {
 
 interface Tab {
     title: string
-    content: JSX.Element
+    content: (cls:string) => JSX.Element
 }
 
 export default class WebradioApp extends React.Component<{}, RadioState> {
@@ -29,10 +29,10 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
 
     get tabs() {
         return [
-            { title: "Search", content: <RadioSearch onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
-            { title: "Favorites", content: <div>My favorites</div> },
-            { title: "Play", content: <RadioPlayer station={this.state.selectedStation}></RadioPlayer> },
-            { title: "About", content: <About></About>}
+            { title: "Search", content: (cls:string) => <RadioSearch className={cls} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
+            { title: "Favorites", content: (cls:string) => <div className={cls}>My favorites</div> },
+            { title: "Play", content: (cls:string) => <RadioPlayer className={cls} station={this.state.selectedStation}></RadioPlayer> },
+            { title: "About", content: (cls:string) => <About className={cls} ></About>}
         ]
     }
 
@@ -53,13 +53,14 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         const tabs = this.tabs
         const selectedTabName = this.state.selectedTab
         const selectedTab = tabs.find(tab => tab.title === selectedTabName)
-        const headerContent = tabs.map(tab => <span className={tab === selectedTab ? "tab selected" : "tab"} 
+        const headerContent = tabs.map(tab => <span className={tab === selectedTab ? "tab selected" : "tab"}
                                                     key={tab.title} onClick={e=>this.changeTab(tab)} >{tab.title}</span> )
-
+        const tabElements = tabs.map(tab => tab.content(tab == selectedTab ? "visible" : "hidden"))
+        
         return (
             <div className="radio-App flexible vertical">
                 <div className="tabs">{headerContent}</div>
-                {selectedTab?.content}
+                {tabElements}
             </div>
         )
     }

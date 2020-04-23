@@ -52,6 +52,11 @@ code {
   scrollbar-width: thin;
 }
 
+/* hidden */
+.hidden {
+  display: none;
+}
+
 /* temp */
 .radio-App {
   padding-left: 2em;
