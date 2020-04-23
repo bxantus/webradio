@@ -62,3 +62,8 @@ code {
   padding-left: 2em;
   padding-right: 2em;
 }
+
+button {
+  padding: 5px;
+  font-size: 16px;
+}

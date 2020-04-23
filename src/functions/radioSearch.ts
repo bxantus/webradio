@@ -47,6 +47,6 @@ export async function getStreamUrl(station:Station) {
     var url = "https://www.radio-browser.info/webservice/v2/json/url/" + station.id;
     var res = await fetch(url).then(res=>res.json())
     if (res && res.ok)
-        return res.url;
-    else return false;
+        return res.url as string;
+    else return undefined;
 }
