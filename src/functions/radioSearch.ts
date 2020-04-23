@@ -14,7 +14,8 @@ export interface Station {
     icon: string,
 }
 
-// api docs at: https://www.radio-browser.info/webservice#General
+// api docs at: https://api.radio-browser.info/
+// and https://de1.api.radio-browser.info/#Advanced_station_search
 export class RadioSearch {
     public query: Query
     private offset = 0

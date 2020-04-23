@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Webradio",
+  "name": "Play music from the web",
   "icons": [
     {
       "src": "favicon.ico",

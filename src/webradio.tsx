@@ -2,6 +2,7 @@ import React from 'react';
 import RadioSearch from './components/search'
 import RadioPlayer from './components/player'
 import { Station } from './functions/radioSearch';
+import About from './components/about';
 
 interface RadioState {
     selectedTab:string
@@ -31,6 +32,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
             { title: "Search", content: <RadioSearch onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
             { title: "Favorites", content: <div>My favorites</div> },
             { title: "Play", content: <RadioPlayer station={this.state.selectedStation}></RadioPlayer> },
+            { title: "About", content: <About></About>}
         ]
     }
 
