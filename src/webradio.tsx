@@ -57,7 +57,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
                                                     key={tab.title} onClick={e=>this.changeTab(tab)} >{tab.title}</span> )
 
         return (
-            <div className="radio-App">
+            <div className="radio-App flexible vertical">
                 <div className="tabs">{headerContent}</div>
                 {selectedTab?.content}
             </div>

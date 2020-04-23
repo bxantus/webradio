@@ -11,8 +11,7 @@ export default class About extends React.Component {
                 Uses the api provided by <a href="http://www.radio-browser.info">http://www.radio-browser.info</a>
             </p>
             <p>
-                If you find any issues, or have feature requests please report them at the project's github page:
-                <a href="https://github.com/bxantus/webradio">https://github.com/bxantus/webradio</a>
+                If you find any issues, or have feature requests please report them at the project's github page: <a href="https://github.com/bxantus/webradio">https://github.com/bxantus/webradio</a>
             </p>
         </div>
     }

@@ -18,12 +18,38 @@ code {
 }
 
 .tab {
-  padding-left: 2em;
-  padding-right: 2em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .tab.selected {
   font-weight: bold;
+}
+
+.radio-App {
+  height: 100vh;
+}
+
+.search {
+  flex: 1;
+}
+
+/* flexible */
+.flexible {
+  display: flex;
+}
+
+.flexible.vertical {
+  flex-direction: column;
+  min-height: 0;  /*needs min height, otherwise won't be shrunk*/
+}
+
+.flexible.vertical > .scrollable {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  scrollbar-width: thin;
 }
 
 /* temp */
