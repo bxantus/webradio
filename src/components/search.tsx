@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { DOMElement } from 'react';
 import { RadioSearch, Station } from '../functions/radioSearch';
 import StationList from './stationList';
 
@@ -19,6 +19,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
         this.state = {
             search: currentSearch
         }
+        this.searchList = React.createRef<HTMLElement>()
     }
 
     async searchTextChanged(e) {
@@ -27,12 +28,16 @@ export default class Search extends React.Component<SearchProps, SearchState> {
     }
 
     private searchTimer
+    private searchList:React.RefObject<HTMLElement>
+
     async scheduleSearch(query:string) {
         this.searchTimer = clearTimeout(this.searchTimer)
         this.searchTimer = setTimeout(async () => {
             let search = new RadioSearch({name: query})
             currentSearch = search
             await search.search()
+            // reset scroll
+            if (this.searchList.current) this.searchList.current.scrollTop = 0
             this.setState({
                 search
             })
@@ -51,7 +56,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
                       onInput={ (e) => { this.searchTextChanged(e) } }></input>
                 <div className="results flexible vertical" style={{flex: 1}} >
                     <p>Search results</p>
-                    <div className="scrollable">
+                    <div ref={this.searchList} className="scrollable">
                         <StationList stations={results} onStationSelected={this.props?.onStationSelected}></StationList>
                     </div>
                 </div>  
