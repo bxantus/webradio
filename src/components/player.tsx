@@ -2,7 +2,7 @@ import React from "react"
 import { Station } from "../functions/radioSearch"
 import RadioPlayer, {StatusCallback} from "../functions/radioPlayer"
 
-let radioPlayer = new RadioPlayer()
+export let radioPlayer = new RadioPlayer()
 
 interface PlayerProps {
     station:Station|undefined

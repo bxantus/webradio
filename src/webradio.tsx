@@ -1,6 +1,6 @@
 import React from 'react';
 import RadioSearch from './components/search'
-import RadioPlayer from './components/player'
+import RadioPlayerUI, { radioPlayer } from './components/player'
 import { Station } from './functions/radioSearch';
 import About from './components/about';
 
@@ -31,22 +31,27 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         return [
             { title: "Search", content: (cls:string) => <RadioSearch className={cls} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
             { title: "Favorites", content: (cls:string) => <div className={cls}>My favorites</div> },
-            { title: "Play", content: (cls:string) => <RadioPlayer className={cls} station={this.state.selectedStation}></RadioPlayer> },
+            { title: "Play", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
             { title: "About", content: (cls:string) => <About className={cls} ></About>}
         ]
     }
 
-    changeTab(tab:Tab)  {
+    changeTab(tab:Tab, userSelect=true)  {
         this.setState({
             selectedTab: tab.title
         })
+        if (userSelect) {
+            this.setState({
+                selectedStation: radioPlayer.station
+            })
+        }
     }
 
     stationSelected(station:Station) {
         this.setState({
             selectedStation: station
         })
-        this.changeTab(this.tabs[2])  
+        this.changeTab(this.tabs[2], /*userSelect*/false)  
     }
 
     render() {
