@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/webradio/static/css/main.34db2c05.chunk.css",
+    "main.js": "/webradio/static/js/main.f7511930.chunk.js",
+    "main.js.map": "/webradio/static/js/main.f7511930.chunk.js.map",
+    "runtime-main.js": "/webradio/static/js/runtime-main.7106fdf5.js",
+    "runtime-main.js.map": "/webradio/static/js/runtime-main.7106fdf5.js.map",
+    "static/js/2.7b0a6b77.chunk.js": "/webradio/static/js/2.7b0a6b77.chunk.js",
+    "static/js/2.7b0a6b77.chunk.js.map": "/webradio/static/js/2.7b0a6b77.chunk.js.map",
+    "index.html": "/webradio/index.html",
+    "precache-manifest.e77b1e2ca4850083f004c89da1f42e6a.js": "/webradio/precache-manifest.e77b1e2ca4850083f004c89da1f42e6a.js",
+    "service-worker.js": "/webradio/service-worker.js",
+    "static/css/main.34db2c05.chunk.css.map": "/webradio/static/css/main.34db2c05.chunk.css.map",
+    "static/js/2.7b0a6b77.chunk.js.LICENSE.txt": "/webradio/static/js/2.7b0a6b77.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7106fdf5.js",
+    "static/js/2.7b0a6b77.chunk.js",
+    "static/css/main.34db2c05.chunk.css",
+    "static/js/main.f7511930.chunk.js"
+  ]
+}
