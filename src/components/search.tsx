@@ -55,7 +55,6 @@ export default class Search extends React.Component<SearchProps, SearchState> {
                 <input defaultValue={radioSearch ? radioSearch.query.name : ""} 
                       onInput={ (e) => { this.searchTextChanged(e) } }></input>
                 <div className="results flexible vertical" style={{flex: 1}} >
-                    <p>Search results</p>
                     <div ref={this.searchList} className="scrollable">
                         <StationList stations={results} onStationSelected={this.props?.onStationSelected}></StationList>
                     </div>
