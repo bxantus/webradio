@@ -7,11 +7,12 @@ export interface Query {
 
 export interface Station {
     name: string
-    id: number,
+    id: string,
     tags: string,
     country: string,
     language: string,
     icon: string,
+    votes: number,
 }
 
 // api docs at: https://api.radio-browser.info/
@@ -29,24 +30,27 @@ export class RadioSearch {
 
     async search() {
         // compute url
-        let url = `https://www.radio-browser.info/webservice/json/stations/search?name=${this.query.name}&order=votes&reverse=true&limit=${this.query.limit}&offset=${this.offset}`
+        let url = `${apiUrl}/stations/search?name=${this.query.name}&order=votes&reverse=true&limit=${this.query.limit}&offset=${this.offset}`
         // do the stuff
         let results = await fetch(url).then(res => res.json())
         let res:Station[] = results.map(r =>({  name: r.name,
-                                                id: r.id,
+                                                id: r.stationuuid,
                                                 tags: r.tags,
                                                 country: r.country,
                                                 language: r.language,
                                                 icon: r.favicon,
+                                                votes: r.votes,
                                             }))
         this.results.push(...res)
     }
 }
 
 export async function getStreamUrl(station:Station) {
-    var url = "https://www.radio-browser.info/webservice/v2/json/url/" + station.id;
+    var url = `${apiUrl}/url/${station.id}`;
     var res = await fetch(url).then(res=>res.json())
     if (res && res.ok)
         return res.url as string;
     else return undefined;
 }
+
+const apiUrl = "https://de1.api.radio-browser.info/json" // todo: should do dns lookup as the docs ask

@@ -18,12 +18,13 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
     state:RadioState = {
         selectedTab: "Search",
         selectedStation: {
-            id: 1,
+            id: "1",
             name: "X-id",
             tags: "alternative, rock",
             country: "iceland",
             language: "",
-            icon: ""
+            icon: "",
+            votes: 0
         }
     }
 
