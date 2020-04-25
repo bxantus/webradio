@@ -1,11 +1,3 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -39,9 +31,17 @@ code {
   display: flex;
 }
 
+.flex1 {
+  flex: 1;
+}
+
 .flexible.vertical {
   flex-direction: column;
   min-height: 0;  /*needs min height, otherwise won't be shrunk*/
+}
+
+.flexible.horizontal {
+  flex-direction: row;
 }
 
 .flexible.vertical > .scrollable {

@@ -4,6 +4,7 @@ import StationList from './stationList';
 
 interface SearchState {
     search: RadioSearch|undefined
+    searching:boolean
 }
 
 interface SearchProps {
@@ -17,7 +18,8 @@ export default class Search extends React.Component<SearchProps, SearchState> {
     constructor(props) {
         super(props)
         this.state = {
-            search: currentSearch
+            search: currentSearch,
+            searching: false
         }
         this.searchList = React.createRef<HTMLDivElement>()
     }
@@ -35,11 +37,13 @@ export default class Search extends React.Component<SearchProps, SearchState> {
         this.searchTimer = setTimeout(async () => {
             let search = new RadioSearch({name: query})
             currentSearch = search
+            this.setState({searching: true})
             await search.search()
             // reset scroll
             if (this.searchList.current) this.searchList.current.scrollTop = 0
             this.setState({
-                search
+                search,
+                searching: false
             })
         }, 400)
     }
@@ -50,10 +54,14 @@ export default class Search extends React.Component<SearchProps, SearchState> {
         if (radioSearch) {
             results = radioSearch.results
         }
+        let searching = this.state.searching ? <span className="loading">Searching...</span> : undefined
         return (
             <div className={"search flexible vertical " + (this.props.className ?? "")}>
-                <input defaultValue={radioSearch ? radioSearch.query.name : ""} 
+                <div className="flexible horizontal">
+                    <input className="flex1" defaultValue={radioSearch ? radioSearch.query.name : ""} 
                       onInput={ (e) => { this.searchTextChanged(e) } }></input>
+                    {searching}
+                </div>
                 <div className="results flexible vertical" style={{flex: 1}} >
                     <div ref={this.searchList} className="scrollable">
                         <StationList stations={results} onStationSelected={this.props?.onStationSelected}></StationList>
