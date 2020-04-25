@@ -1,6 +1,7 @@
 import React from "react"
 import { Station } from "../functions/radioSearch"
 import RadioPlayer, {StatusCallback} from "../functions/radioPlayer"
+import { favorites } from "../functions/favorites"
 
 export let radioPlayer = new RadioPlayer()
 
@@ -57,6 +58,15 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
         return status
     }
 
+    toggleFavorite() {
+        const station = this.props.station;
+        if (station) {
+            if (favorites.isFavorite(station)) favorites.remove(station)
+            else favorites.add(station)
+            this.setState({}) // needs update
+        }
+    }
+
     render() {
         const station = this.props.station;
         if (!station) return null
@@ -83,7 +93,7 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                         {detailText}
                     </div>
                     <div>
-                        <button>Add to favorites</button>
+                        <button onClick={()=> this.toggleFavorite()} >{favorites.isFavorite(station) ? "Remove from favorites" : "Add to favorites"}</button>
                         <button>Vote!</button>
                     </div>
                </div>

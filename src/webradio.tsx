@@ -3,6 +3,8 @@ import RadioSearch from './components/search'
 import RadioPlayerUI, { radioPlayer } from './components/player'
 import { Station } from './functions/radioSearch';
 import About from './components/about';
+import StationList from './components/stationList';
+import { favorites } from './functions/favorites';
 
 interface RadioState {
     selectedTab:string
@@ -28,10 +30,21 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         }
     }
 
+    constructor(props) {
+        super(props);
+        favorites.load();
+    }
+
+    componentDidMount() {
+        favorites.onUpdated(() => {
+            this.setState({}) // update
+        })
+    }
+
     get tabs() {
         return [
             { title: "Search", content: (cls:string) => <RadioSearch className={cls} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
-            { title: "Favorites", content: (cls:string) => <div className={cls}>My favorites</div> },
+            { title: "Favorites", content: (cls:string) => <div className={cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
             { title: "Play", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
             { title: "About", content: (cls:string) => <About className={cls} ></About>}
         ]
