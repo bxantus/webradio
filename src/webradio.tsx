@@ -5,10 +5,11 @@ import { Station } from './functions/radioSearch';
 import About from './components/about';
 import StationList from './components/stationList';
 import { favorites } from './functions/favorites';
+import { getLastPlayedStation } from './functions/lastPlayed';
 
 interface RadioState {
     selectedTab:string
-    selectedStation:Station|undefined
+    selectedStation?:Station
 }
 
 interface Tab {
@@ -19,15 +20,6 @@ interface Tab {
 export default class WebradioApp extends React.Component<{}, RadioState> {
     state:RadioState = {
         selectedTab: "Search",
-        selectedStation: {
-            id: "1",
-            name: "X-id",
-            tags: "alternative, rock",
-            country: "iceland",
-            language: "",
-            icon: "",
-            votes: 0
-        }
     }
 
     constructor(props) {
@@ -39,6 +31,11 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         favorites.onUpdated(() => {
             this.setState({}) // update
         })
+        const lastPlayed = getLastPlayedStation()
+        if (lastPlayed) {
+            radioPlayer.setStation(lastPlayed)
+            this.stationSelected(lastPlayed) // switch to play tab
+        }
     }
 
     get tabs() {
