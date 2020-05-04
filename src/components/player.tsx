@@ -1,6 +1,6 @@
 import React from "react"
 import { Station } from "../functions/radioSearch"
-import RadioPlayer, {StatusCallback} from "../functions/radioPlayer"
+import RadioPlayer, {StatusCallback, LoadError} from "../functions/radioPlayer"
 import { favorites } from "../functions/favorites"
 
 export let radioPlayer = new RadioPlayer()
@@ -42,11 +42,17 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
             return
         const stat = this.getPlayStatus()
         if (stat != "play") {
-            if (radioPlayer.station?.id != this.props.station.id)
-                await radioPlayer.setStation(this.props.station)
-            radioPlayer.play()
+            try {
+                this.setState({status:"load", detail: undefined})
+                if (radioPlayer.station?.id != this.props.station.id)
+                    await radioPlayer.setStation(this.props.station)
+                radioPlayer.play()
+            } catch (loadErr) {
+                if (!(loadErr instanceof LoadError)) // no playback when loading fails. status change takes care of notifying the user
+                    throw loadErr
+            }
         } else {
-            radioPlayer.pause()
+            radioPlayer.stop()
         }
     }
 
@@ -56,6 +62,12 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
             status = "stop" // this stream hasn't been started
         }
         return status
+    }
+
+    getPlayDetail() {
+        if (this.props.station && this.props.station.id != radioPlayer.station?.id) 
+            return undefined
+        else return this.state.detail
     }
 
     toggleFavorite() {
@@ -80,8 +92,9 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
         }
         let playButtonText = buttonTextByStatus[status] ?? "Error"
         let detailText:JSX.Element | undefined
-        if (this.state.detail) {
-        detailText = <span>{this.state.detail}</span>
+        const detail = this.getPlayDetail()
+        if (detail) {
+            detailText = <span>{detail}</span>
         }
 
         return <div className={this.props.className}>
