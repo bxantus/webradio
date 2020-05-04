@@ -50,6 +50,7 @@ code {
   overflow-x: hidden;
   min-height: 0;
   scrollbar-width: thin;
+  padding-right: 1em;
 }
 
 /* hidden */
@@ -59,8 +60,8 @@ code {
 
 /* temp */
 .radio-App {
-  padding-left: 2em;
-  padding-right: 2em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 button {
@@ -72,4 +73,19 @@ button {
 
 input {
   font-size: 18px;
+}
+
+.station-header {
+  align-items: baseline;
+}
+
+.station-header > h3 {
+  margin-bottom: 5px;
+}
+
+.station-header > span { /* votes */
+  flex: 1;
+  text-align: right;
+  font-weight: bold;
+  font-size: 14px;
 }

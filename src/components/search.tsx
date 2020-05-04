@@ -62,11 +62,11 @@ export default class Search extends React.Component<SearchProps, SearchState> {
                       onInput={ (e) => { this.searchTextChanged(e) } }></input>
                     {searching}
                 </div>
-                <div className="results flexible vertical" style={{flex: 1}} >
-                    <div ref={this.searchList} className="scrollable">
-                        <StationList stations={results} onStationSelected={this.props?.onStationSelected}></StationList>
-                    </div>
-                </div>  
+                
+                <div ref={this.searchList} className="results scrollable">
+                    <StationList stations={results} onStationSelected={this.props?.onStationSelected}></StationList>
+                </div>
+                
             </div>
         )
     }

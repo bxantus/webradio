@@ -41,7 +41,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
     get tabs() {
         return [
             { title: "Search", content: (cls:string) => <RadioSearch className={cls} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
-            { title: "Favorites", content: (cls:string) => <div className={cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
+            { title: "Favorites", content: (cls:string) => <div className={"scrollable " + cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
             { title: "Play", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
             { title: "About", content: (cls:string) => <About className={cls} ></About>}
         ]
