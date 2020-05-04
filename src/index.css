@@ -12,6 +12,7 @@ code {
 .tab {
   padding-left: 1em;
   padding-right: 1em;
+  cursor: pointer;
 }
 
 .tab.selected {
@@ -24,6 +25,10 @@ code {
 
 .search {
   flex: 1;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 /* flexible */

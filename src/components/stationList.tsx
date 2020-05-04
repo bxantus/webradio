@@ -11,7 +11,7 @@ export default class StationList extends React.Component<StationsProps, {}> {
         const stations = this.props.stations;
         if (stations) {
             let results = stations.map(station => 
-                                               <div onClick={ () => this.props?.onStationSelected?.(station) } key={station.id}>
+                                               <div className="clickable" onClick={ () => this.props?.onStationSelected?.(station) } key={station.id}>
                                                  <div className="flexible horizontal station-header">
                                                     <h3>{station.name}</h3>
                                                     <span>{station.votes}</span>
