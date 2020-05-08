@@ -13,6 +13,9 @@ export default class About extends React.Component<{className:string}> {
             <p>
                 If you find any issues, or have feature requests please report them at the project's github page: <a href="https://github.com/bxantus/webradio">https://github.com/bxantus/webradio</a>
             </p>
+            <hr></hr>
+            <h3>Link for mobile devices:</h3>
+            <img src="/webradio/address_qr.png"></img>
         </div>
     }
 }
