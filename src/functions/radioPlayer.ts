@@ -80,6 +80,7 @@ export default class RadioPlayer {
                 this.fireStatusChange("load", "stream")
                 // no need to use `load`, see the loadError remark. play will load the stream
             }
+            this.player.volume(this._volume / 100)
             this.player.play()
         }
     }
@@ -88,6 +89,15 @@ export default class RadioPlayer {
         if (this.player) {
             this.player.stop()
             this.player.unload() // preserve battery
+        }
+    }
+
+    private _volume:number = 100
+    // set the volume in 0 to 100 range
+    set volume(vol:number) {
+        this._volume = vol
+        if (this.player) {
+            this.player.volume(vol / 100) // howler works with 0 and 1 range
         }
     }
 

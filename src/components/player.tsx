@@ -34,9 +34,8 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                 })
         });
 
-        // todo: test
-        (window as any).vol = this.volume;
-        this.volume.val = 33;
+        this.volume.val = 75; // // todo: should use persisted value and set to radio player
+        this.volume.subscribe("value", vol => radioPlayer.volume = vol)
     }
 
     componentWillUnmount() {
