@@ -2,6 +2,8 @@ import React from "react"
 import { Station } from "../functions/radioSearch"
 import RadioPlayer, {StatusCallback, LoadError} from "../functions/radioPlayer"
 import { favorites } from "../functions/favorites"
+import { Slider } from "./slider"
+import { RangeModel } from "../models/range"
 
 export let radioPlayer = new RadioPlayer()
 
@@ -22,6 +24,7 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
     }
 
     private statusChangeId:StatusCallback|undefined
+    private volume = new RangeModel()
     componentDidMount() {
         this.statusChangeId = radioPlayer.onStatusChanged((status, detail) => {
             if (radioPlayer.station && this.props.station?.id == radioPlayer.station.id) // only change state, if we display details for the station playing
@@ -29,7 +32,11 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                     status,
                     detail
                 })
-        })
+        });
+
+        // todo: test
+        (window as any).vol = this.volume;
+        this.volume.val = 33;
     }
 
     componentWillUnmount() {
@@ -109,6 +116,7 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                         <button onClick={()=> this.toggleFavorite()} >{favorites.isFavorite(station) ? "Remove from favorites" : "Add to favorites"}</button>
                         <button>Vote!</button>
                     </div>
+                    <Slider model={this.volume} ></Slider>
                </div>
     }
 }
