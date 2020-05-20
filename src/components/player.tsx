@@ -1,5 +1,5 @@
 import React from "react"
-import { Station } from "../functions/radioSearch"
+import { Station, voteForStation, refreshStation } from "../functions/radioSearch"
 import RadioPlayer, {StatusCallback, LoadError} from "../functions/radioPlayer"
 import { favorites } from "../functions/favorites"
 import { Slider } from "./slider"
@@ -15,12 +15,13 @@ interface PlayerProps {
 interface PlayerState {
     status: string
     detail?: string 
+    voting: boolean
 }
 
 export default class Player extends React.Component<PlayerProps, PlayerState> {
     state:PlayerState = {
         status : "stop",
-        
+        voting: false
     }
 
     private statusChangeId:StatusCallback|undefined
@@ -85,6 +86,19 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
         }
     }
 
+    async vote() {
+        if (!this.props.station) return
+        this.setState({voting: true})
+        const succ = await voteForStation(this.props.station)
+        
+        const refreshed = await refreshStation(this.props.station)
+        if (refreshed) {
+            this.props.station.votes = refreshed.votes
+        }
+        
+        this.setState({voting: false}) 
+    }
+
     render() {
         const station = this.props.station;
         if (!station) return null
@@ -113,7 +127,8 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                     </div>
                     <div>
                         <button onClick={()=> this.toggleFavorite()} >{favorites.isFavorite(station) ? "Remove from favorites" : "Add to favorites"}</button>
-                        <button>Vote!</button>
+                        <button onClick={()=> this.vote() }disabled={this.state.voting} >{this.state.voting ? "Voting..." : "Vote!"}</button>
+                        <span>{station.votes} votes</span>
                     </div>
                     <Slider model={this.volume} ></Slider>
                </div>

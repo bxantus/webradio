@@ -120,10 +120,17 @@ export async function refreshStation(station:Station) {
 }
 
 export async function voteForStation(station:Station) {
-    var url = `${apiUrl}/vote${station.id}`; 
+    var url = `${apiUrl}/vote/${station.id}`; 
     // will return status of vote (in the ok field)
-    var res = await fetch(url).then(res=>res.json())
-    return res.ok
+    try {
+        var res = await fetch(url)
+        if (res.ok) {
+            res = await res.json()
+            return res.ok
+        } else return false
+    } catch (err) {
+        return false
+    }
 }
 
 const apiUrl = "https://de1.api.radio-browser.info/json" // todo: should do dns lookup as the docs ask
