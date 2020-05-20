@@ -53,4 +53,16 @@ export async function getStreamUrl(station:Station) {
     else return undefined;
 }
 
+export async function refreshStation(station:Station) {
+    var url = `${apiUrl}/stations/byuuid/${station.id}`; // get info for this station only
+    // will return an array with one item
+    // todo: process station
+}
+
+export async function voteForStation(station:Station) {
+    var url = `${apiUrl}/vote${station.id}`; // get info for this station only
+    // will return status of vote (in the ok field)
+    // todo: process and return result
+}
+
 const apiUrl = "https://de1.api.radio-browser.info/json" // todo: should do dns lookup as the docs ask
