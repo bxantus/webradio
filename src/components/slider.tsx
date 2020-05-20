@@ -23,11 +23,11 @@ export class Slider extends React.Component<SliderProps> {
     private posStartDrag = 0
     private valStart = 0
     private sliderBg = React.createRef<HTMLDivElement>()
+    private dragging = false
 
-    onMouseMove(e:MouseEvent) {
-        if (this.sliderBg.current) {
-            e.preventDefault()
-            e.stopPropagation()
+    onPointerMove(e:React.PointerEvent) {
+        if (this.dragging && this.sliderBg.current) {
+            
             const sliderWidth = this.sliderBg.current.clientWidth // corresponds to change in range max - min
             let offs = e.clientX - this.posStartDrag
             if (sliderWidth > 0) {
@@ -35,22 +35,19 @@ export class Slider extends React.Component<SliderProps> {
                 this.model.val = this.valStart + change // this will update the display automatically
             }
         }
-
     }
 
-    private moveListener = this.onMouseMove.bind(this)
-    private upListener = this.onMouseUp.bind(this)
-
-    onMouseDown(e:React.MouseEvent) {
+    onPointerDown(e:React.PointerEvent) {
+        // todo: check button/finger here
         this.posStartDrag = e.clientX
-        window.addEventListener("mousemove", this.moveListener, { capture: true})
-        window.addEventListener("mouseup", this.upListener, { capture: true})
-        this.valStart = this.model.val
+        this.valStart = this.model.val;
+        (e.target as any).setPointerCapture(e.pointerId) // move events will be forwarded to this item, as expected
+                                                         // see: https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events#Pointer_capture
+        this.dragging = true
     }
 
-    onMouseUp(e:MouseEvent) {
-        window.removeEventListener("mousemove", this.moveListener, {capture:true})
-        window.removeEventListener("mouseup", this.upListener, {capture:true})
+    onPointerUp(e:React.PointerEvent) {
+        this.dragging = false
     }
 
     render() {
@@ -59,7 +56,7 @@ export class Slider extends React.Component<SliderProps> {
 
         return <div className="slider bg" ref={this.sliderBg}>
                     <div style={ { left: `${left}%`, top:"50%", width:0, height:0, position:"absolute"  } }>
-                        <span className="thumb" onMouseDown={e=>this.onMouseDown(e)} ></span>
+                        <span className="thumb" onPointerDown={e=>this.onPointerDown(e)} onPointerMove={e=>this.onPointerMove(e)} onPointerUp={e=> this.onPointerUp(e)} ></span>
                     </div>
                </div>
     }
