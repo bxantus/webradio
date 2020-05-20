@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/webradio/static/css/main.80e60cef.chunk.css",
-    "main.js": "/webradio/static/js/main.a4118ba7.chunk.js",
-    "main.js.map": "/webradio/static/js/main.a4118ba7.chunk.js.map",
+    "main.js": "/webradio/static/js/main.d7dbe4ea.chunk.js",
+    "main.js.map": "/webradio/static/js/main.d7dbe4ea.chunk.js.map",
     "runtime-main.js": "/webradio/static/js/runtime-main.7106fdf5.js",
     "runtime-main.js.map": "/webradio/static/js/runtime-main.7106fdf5.js.map",
-    "static/js/2.797319ff.chunk.js": "/webradio/static/js/2.797319ff.chunk.js",
-    "static/js/2.797319ff.chunk.js.map": "/webradio/static/js/2.797319ff.chunk.js.map",
+    "static/js/2.de38c89e.chunk.js": "/webradio/static/js/2.de38c89e.chunk.js",
+    "static/js/2.de38c89e.chunk.js.map": "/webradio/static/js/2.de38c89e.chunk.js.map",
     "index.html": "/webradio/index.html",
-    "precache-manifest.6e6eb02bfedfb5025513bcf3f5cba3f7.js": "/webradio/precache-manifest.6e6eb02bfedfb5025513bcf3f5cba3f7.js",
+    "precache-manifest.4e028366a7b84c12068ac6102ff3ae2e.js": "/webradio/precache-manifest.4e028366a7b84c12068ac6102ff3ae2e.js",
     "service-worker.js": "/webradio/service-worker.js",
     "static/css/main.80e60cef.chunk.css.map": "/webradio/static/css/main.80e60cef.chunk.css.map",
-    "static/js/2.797319ff.chunk.js.LICENSE.txt": "/webradio/static/js/2.797319ff.chunk.js.LICENSE.txt"
+    "static/js/2.de38c89e.chunk.js.LICENSE.txt": "/webradio/static/js/2.de38c89e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.7106fdf5.js",
-    "static/js/2.797319ff.chunk.js",
+    "static/js/2.de38c89e.chunk.js",
     "static/css/main.80e60cef.chunk.css",
-    "static/js/main.a4118ba7.chunk.js"
+    "static/js/main.d7dbe4ea.chunk.js"
   ]
 }
