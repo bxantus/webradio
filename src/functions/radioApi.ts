@@ -13,6 +13,7 @@ export interface Station {
     language: string,
     icon: string,
     votes: number,
+    // fields below are added to v1
     codec:string,              
     bitrate:number,            
 }
@@ -138,3 +139,19 @@ export async function voteForStation(station:Station) {
 }
 
 const apiUrl = "https://de1.api.radio-browser.info/json" // todo: should do dns lookup as the docs ask
+
+function needsUpgrade(station:Station) {
+    // from v0 to v1 (codec and bitrate added)
+    return station.codec == undefined || station.bitrate == undefined;
+}
+
+async function upgradeStation(station:Station) {
+    let refreshed = await refreshStation(station)
+    if (refreshed) {
+        station.codec = refreshed.codec;
+        station.bitrate = refreshed.bitrate;
+        // could refresh all fields but only these have been added
+        return true
+    }
+    return false
+}
