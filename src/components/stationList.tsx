@@ -17,7 +17,11 @@ export default class StationList extends React.Component<StationsProps, {}> {
                                                     <span>{station.votes}</span>
                                                  </div>
                                                  <div>{station.tags}</div>
-                                                 <div>{station.country}</div>
+                                                 <div className="flexible horizontal">
+                                                     <span className="flex1">{station.country}</span>
+                                                     <span className="bold codec">{station.codec} </span>
+                                                     <span>{station.bitrate} kbps</span>
+                                                 </div>
                                                  <hr></hr>
                                                </div> )
             return results

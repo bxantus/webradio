@@ -121,6 +121,7 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                     <h2>{station.name}</h2>
                     <p>in: {station.country}</p>
                     <p>tags: {station.tags}</p>
+                    <p><span className="bold codec">{station.codec}</span>{station.bitrate} kbps</p>
                     <div>
                         <button onClick={e => this.togglePlayback()} >{playButtonText}</button> {/* toggle pause */}
                         {detailText}
