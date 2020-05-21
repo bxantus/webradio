@@ -1,4 +1,4 @@
-import { Station } from "./radioApi";
+import { Station, needsUpgrade, upgradeStation } from "./radioApi";
 
 export type UpdateCallback = () => any
 
@@ -35,11 +35,24 @@ class Favorites {
         this.changed()
     }
 
-    load() { // load from local storage
+    async load() { // load from local storage
         let stats = localStorage.getItem("stations")
         if (stats) {
-            this.stations = JSON.parse(stats)
-            this.changed()
+            let stations:Station[] = JSON.parse(stats)
+            // check for upgrades
+            let upgrades:Promise<boolean>[] = []
+            for (let station of stations) {
+                if (needsUpgrade(station)) {
+                    upgrades.push(upgradeStation(station))
+                }
+            }
+            try {
+                if (upgrades.length)
+                    await Promise.all(upgrades)
+            } finally {
+                this.stations = stations
+                this.changed()
+            }
         }
     }
     

@@ -140,12 +140,12 @@ export async function voteForStation(station:Station) {
 
 const apiUrl = "https://de1.api.radio-browser.info/json" // todo: should do dns lookup as the docs ask
 
-function needsUpgrade(station:Station) {
+export function needsUpgrade(station:Station) {
     // from v0 to v1 (codec and bitrate added)
     return station.codec == undefined || station.bitrate == undefined;
 }
 
-async function upgradeStation(station:Station) {
+export async function upgradeStation(station:Station) {
     let refreshed = await refreshStation(station)
     if (refreshed) {
         station.codec = refreshed.codec;

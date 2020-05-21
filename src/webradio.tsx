@@ -27,11 +27,11 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         favorites.load();
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         favorites.onUpdated(() => {
             this.setState({}) // update
         })
-        const lastPlayed = getLastPlayedStation()
+        const lastPlayed = await getLastPlayedStation()
         if (lastPlayed) {
             radioPlayer.setStation(lastPlayed)
             this.stationSelected(lastPlayed) // switch to play tab
