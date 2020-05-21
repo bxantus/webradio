@@ -13,6 +13,8 @@ export interface Station {
     language: string,
     icon: string,
     votes: number,
+    codec:string,              
+    bitrate:number,            
 }
 
 /// station format from api.radio-browser
@@ -76,6 +78,8 @@ function toStation(r:RadioStation):Station {
               language: r.language,
               icon: r.favicon,
               votes: r.votes,
+              codec: r.codec,
+              bitrate: r.bitrate
     }
 }
 

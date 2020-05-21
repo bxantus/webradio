@@ -1,4 +1,4 @@
-import { Station } from "./radioSearch";
+import { Station } from "./radioApi";
 
 export function getLastPlayedStation():Station | undefined {
     const stat = localStorage.getItem("lastPlayed")

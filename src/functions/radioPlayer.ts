@@ -1,5 +1,5 @@
 import { Howl } from "howler"
-import { Station, getStreamUrl } from "./radioSearch"
+import { Station, getStreamUrl } from "./radioApi"
 import { saveLastPlayedStation } from "./lastPlayed"
 
 export type StatusCallback = (status:string, detail?:string)=>any

@@ -1,4 +1,4 @@
-import { Station } from "./radioSearch";
+import { Station } from "./radioApi";
 
 export type UpdateCallback = () => any
 

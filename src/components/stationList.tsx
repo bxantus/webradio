@@ -1,5 +1,5 @@
 import React from "react"
-import { Station } from "../functions/radioSearch";
+import { Station } from "../functions/radioApi";
 
 interface StationsProps {
     stations?: Station[]

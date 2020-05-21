@@ -1,7 +1,7 @@
 import React from 'react';
 import RadioSearch from './components/search'
 import RadioPlayerUI, { radioPlayer } from './components/player'
-import { Station } from './functions/radioSearch';
+import { Station } from './functions/radioApi';
 import About from './components/about';
 import StationList from './components/stationList';
 import { favorites } from './functions/favorites';

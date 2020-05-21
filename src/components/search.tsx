@@ -1,5 +1,5 @@
 import React from 'react';
-import { RadioSearch, Station } from '../functions/radioSearch';
+import { RadioSearch, Station } from '../functions/radioApi';
 import StationList from './stationList';
 
 interface SearchState {

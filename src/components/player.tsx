@@ -1,5 +1,5 @@
 import React from "react"
-import { Station, voteForStation, refreshStation } from "../functions/radioSearch"
+import { Station, voteForStation, refreshStation } from "../functions/radioApi"
 import RadioPlayer, {StatusCallback, LoadError} from "../functions/radioPlayer"
 import { favorites } from "../functions/favorites"
 import { Slider } from "./slider"
