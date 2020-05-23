@@ -47,11 +47,16 @@ class Favorites {
                 }
             }
             try {
-                if (upgrades.length)
+                if (upgrades.length) {
                     await Promise.all(upgrades)
+                    this.stations = stations
+                    this.save() // save upgraded stations, so next time they don't have to be upgraded
+                }
             } finally {
-                this.stations = stations
-                this.changed()
+                if (this.stations != stations) {
+                    this.stations = stations
+                    this.changed()
+                }
             }
         }
     }
