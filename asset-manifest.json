@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/webradio/static/css/main.5a41cebf.chunk.css",
-    "main.js": "/webradio/static/js/main.ed1b9d77.chunk.js",
-    "main.js.map": "/webradio/static/js/main.ed1b9d77.chunk.js.map",
+    "main.js": "/webradio/static/js/main.2a203278.chunk.js",
+    "main.js.map": "/webradio/static/js/main.2a203278.chunk.js.map",
     "runtime-main.js": "/webradio/static/js/runtime-main.7106fdf5.js",
     "runtime-main.js.map": "/webradio/static/js/runtime-main.7106fdf5.js.map",
     "static/js/2.01205af7.chunk.js": "/webradio/static/js/2.01205af7.chunk.js",
     "static/js/2.01205af7.chunk.js.map": "/webradio/static/js/2.01205af7.chunk.js.map",
     "index.html": "/webradio/index.html",
-    "precache-manifest.9989f93e2bf5e639f8328078161c448a.js": "/webradio/precache-manifest.9989f93e2bf5e639f8328078161c448a.js",
+    "precache-manifest.968b57cd0717733150e6c8d9eef1efd2.js": "/webradio/precache-manifest.968b57cd0717733150e6c8d9eef1efd2.js",
     "service-worker.js": "/webradio/service-worker.js",
     "static/css/main.5a41cebf.chunk.css.map": "/webradio/static/css/main.5a41cebf.chunk.css.map",
     "static/js/2.01205af7.chunk.js.LICENSE.txt": "/webradio/static/js/2.01205af7.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.7106fdf5.js",
     "static/js/2.01205af7.chunk.js",
     "static/css/main.5a41cebf.chunk.css",
-    "static/js/main.ed1b9d77.chunk.js"
+    "static/js/main.2a203278.chunk.js"
   ]
 }
