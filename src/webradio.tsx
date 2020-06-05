@@ -40,10 +40,10 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
 
     get tabs() {
         return [
-            { title: "Search", content: (cls:string) => <RadioSearch className={cls} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
             { title: "Favorites", content: (cls:string) => <div className={"scrollable " + cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
-            { title: "Play", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
-            { title: "About", content: (cls:string) => <About className={cls} ></About>}
+            { title: "Now playing", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
+            { title: "About", content: (cls:string) => <About className={cls} ></About>},
+            //{ title: "Search", content: (cls:string) => <RadioSearch className={cls} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
         ]
     }
 
@@ -69,17 +69,24 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         const tabs = this.tabs
         const selectedTabName = this.state.selectedTab
         const selectedTab = tabs.find(tab => tab.title === selectedTabName)
-        const headerContent = tabs.map(tab => <span className={tab === selectedTab ? "tab selected" : "tab"}
-                                                    key={tab.title} onClick={e=>this.changeTab(tab)} >{tab.title}</span> )
+        const headerContent = tabs.map(tab => {
+                    let selection = (selectedTab == tab) ? <span className="selection"></span> : undefined
+                    return <div className="tab flexible vertical"
+                               key={tab.title} onClick={e=>this.changeTab(tab)} >
+                                    <span className="title">{tab.title}</span>
+                                    {selection}
+                           </div> 
+        })
         const tabElements = tabs.map(tab => tab.content(tab == selectedTab ? "visible" : "hidden"))
         
         return (
             <div className="radio-App flexible vertical">
                 <div className="header flexible horizontal">
                     <img className="logo" src="webradio/logo.svg"></img>
+                    {/*todo: here should be a choice depending on search screen activated or not*/}
                     <span className="currently-playing">{radioPlayer.station?.name}</span>
                 </div>
-                <div className="tabs">{headerContent}</div>
+                <div className="tabs flexible horizontal">{headerContent}</div>
                 {tabElements}
             </div>
         )

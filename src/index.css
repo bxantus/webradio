@@ -1,22 +1,38 @@
-
+:root {
+  --secondary-font: Proxima Nova;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 .tabs {
-  padding-top: 1em;
-  padding-bottom: 1em;
+  height: 50px;
+  min-height: 50px;
+  margin-top: 16px;
+  font-size: 16px;
+  font-family: var(--secondary-font);
+  background-color: #F1F1F1;
+  padding-left: 7px;
 }
 
 .tab {
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 13px;
+  padding-right: 13px;
   cursor: pointer;
+  align-self: stretch;
+  justify-content: center;
+  position: relative;
 }
 
-.tab.selected {
-  font-weight: bold;
+.tab > .selection {
+  position: absolute;
+  left: calc(50% - 13px);
+  bottom: 0;
+  width: 26px;
+  height: 13px;
+  background-color: #fff;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
 }
 
 .radio-App {
@@ -93,7 +109,7 @@ code {
   white-space: nowrap;
   overflow: hidden;
   font-size: 18px;
-  font-family: Proxima Nova;
+  font-family: var(--secondary-font);
 }
 
 /* temp */
