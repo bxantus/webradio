@@ -75,6 +75,10 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         
         return (
             <div className="radio-App flexible vertical">
+                <div className="header flexible horizontal">
+                    <img className="logo" src="webradio/logo.svg"></img>
+                    <span className="currently-playing">{radioPlayer.station?.name}</span>
+                </div>
                 <div className="tabs">{headerContent}</div>
                 {tabElements}
             </div>

@@ -78,10 +78,30 @@ code {
   position: absolute;
 }
 
+.header > img.logo {
+  width: 121px;
+  min-width: 121px;
+  
+  border-right: 3px #FFC335 solid;
+  padding-right: 10px;
+  margin-right: 18px;
+}
+
+.header > .currently-playing {
+  align-self: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 18px;
+  font-family: Proxima Nova;
+}
+
 /* temp */
 .radio-App {
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 11px;
+  box-sizing: border-box;
 }
 
 button {
