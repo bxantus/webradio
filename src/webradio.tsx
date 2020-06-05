@@ -43,9 +43,10 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
             { title: "Favorites", content: (cls:string) => <div className={"scrollable " + cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
             { title: "Now playing", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
             { title: "About", content: (cls:string) => <About className={cls} ></About>},
-            //{ title: "Search", content: (cls:string) => <RadioSearch className={cls} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
         ]
     }
+
+    private searchTab:Tab = { title: "Search", content: (cls:string) => <RadioSearch className={cls} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> }
 
     changeTab(tab:Tab, userSelect=true)  {
         this.setState({
@@ -62,14 +63,16 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         this.setState({
             selectedStation: station
         })
-        this.changeTab(this.tabs[2], /*userSelect*/false)  
+        // todo: should use rather tab id
+        this.changeTab(this.tabs[1], /*userSelect*/false)  
     }
 
     render() {
         const tabs = this.tabs
         const selectedTabName = this.state.selectedTab
-        const selectedTab = tabs.find(tab => tab.title === selectedTabName)
-        const headerContent = tabs.map(tab => {
+        const selectedTab = tabs.find(tab => tab.title === selectedTabName) || this.searchTab
+        
+        const tabTitles = tabs.map(tab => {
                     let selection = (selectedTab == tab) ? <span className="selection"></span> : undefined
                     return <div className="tab flexible vertical"
                                key={tab.title} onClick={e=>this.changeTab(tab)} >
@@ -77,7 +80,8 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
                                     {selection}
                            </div> 
         })
-        const tabElements = tabs.map(tab => tab.content(tab == selectedTab ? "visible" : "hidden"))
+        const allTabs = [this.searchTab].concat(tabs)
+        const tabContent = allTabs.map(tab => tab.content(tab == selectedTab ? "visible" : "hidden"))
         
         return (
             <div className="radio-App flexible vertical">
@@ -86,8 +90,14 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
                     {/*todo: here should be a choice depending on search screen activated or not*/}
                     <span className="currently-playing">{radioPlayer.station?.name}</span>
                 </div>
-                <div className="tabs flexible horizontal">{headerContent}</div>
-                {tabElements}
+                <div className="tabs flexible horizontal">
+                    {tabTitles}
+                    <span className="flex1"></span>
+                    <a className="search-tab" onClick={e=> this.changeTab(this.searchTab)}>
+                        <img className="icon search" src="webradio/icons/search.svg"></img>
+                    </a>
+                </div>
+                {tabContent}
             </div>
         )
     }
