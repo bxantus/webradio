@@ -148,6 +148,7 @@ input.search {
   font-size: 18px;
   font-family: var(--secondary-font);
   border: none;
+  min-width: 20px;
 }
 
 .station-header {
