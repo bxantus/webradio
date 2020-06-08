@@ -11,35 +11,30 @@ interface SearchState {
 interface SearchProps {
     onStationSelected?:(station:Station)=> any
     className?: string
+    search:SearchModel
 }
-
-let currentSearch= new SearchModel
 
 export default class Search extends React.Component<SearchProps, SearchState> {
     constructor(props) {
         super(props)
         this.state = {
-            results: undefined,
+            results: undefined, // todo: get current results from SearchModel
             searching: false
         }
         this.searchList = React.createRef<HTMLDivElement>()
     }
 
     componentWillMount() {
-        currentSearch.subscribe("searching", (searching:boolean)=> {
+        const search = this.props.search
+        search.subscribe("searching", (searching:boolean)=> {
             this.setState({searching: searching})
         })
-        currentSearch.subscribe("results", (res:Station[])=> {
+        search.subscribe("results", (res:Station[])=> {
             this.setState({results: res})
         })
-        currentSearch.subscribe("query", ()=> {
+        search.subscribe("query", ()=> {
             if (this.searchList.current) this.searchList.current.scrollTop = 0
         })
-    }
-
-    async searchTextChanged(e) {
-        const query = e.target.value;
-        currentSearch.scheduleSearch(query)
     }
 
     private searchList:React.RefObject<HTMLDivElement>
@@ -47,14 +42,10 @@ export default class Search extends React.Component<SearchProps, SearchState> {
     render() {
         const results = this.state.results
         
-        let searching = this.state.searching ? <span className="loading">Searching...</span> : undefined
+        // NOTE: based on `this.state.searching` we could present some searching progress
+        
         return (
             <div className={"search flexible vertical " + (this.props.className ?? "")}>
-                <div className="flexible horizontal">
-                    <input className="flex1" defaultValue={currentSearch.searchText} 
-                      onInput={ (e) => { this.searchTextChanged(e) } }></input>
-                    {searching}
-                </div>
                 
                 <div ref={this.searchList} className="results scrollable">
                     <StationList stations={results} onStationSelected={this.props?.onStationSelected}></StationList>

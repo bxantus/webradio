@@ -6,6 +6,7 @@ import About from './components/about';
 import StationList from './components/stationList';
 import { favorites } from './functions/favorites';
 import { getLastPlayedStation } from './functions/lastPlayed';
+import SearchModel from './functions/searchModel'
 
 interface RadioState {
     selectedTab:string
@@ -16,6 +17,8 @@ interface Tab {
     title: string
     content: (cls:string) => JSX.Element
 }
+
+let currentSearch= new SearchModel
 
 export default class WebradioApp extends React.Component<{}, RadioState> {
     state:RadioState = {
@@ -46,7 +49,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         ]
     }
 
-    private searchTab:Tab = { title: "Search", content: (cls:string) => <RadioSearch className={cls} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> }
+    private searchTab:Tab = { title: "Search", content: (cls:string) => <RadioSearch className={cls} search={currentSearch} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> }
 
     changeTab(tab:Tab, userSelect=true)  {
         this.setState({
@@ -67,6 +70,11 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         this.changeTab(this.tabs[1], /*userSelect*/false)  
     }
 
+    searchTextChanged(e) {
+        const query = e.target.value;
+        currentSearch.scheduleSearch(query)
+    }
+
     render() {
         const tabs = this.tabs
         const selectedTabName = this.state.selectedTab
@@ -82,13 +90,20 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         })
         const allTabs = [this.searchTab].concat(tabs)
         const tabContent = allTabs.map(tab => tab.content(tab == selectedTab ? "visible" : "hidden"))
+        const searchSelected = this.searchTab == selectedTab;
         
         return (
             <div className="radio-App flexible vertical">
                 <div className="header flexible horizontal">
                     <img className="logo" src="webradio/logo.svg"></img>
                     {/*todo: here should be a choice depending on search screen activated or not*/}
-                    <span className="currently-playing">{radioPlayer.station?.name}</span>
+                    <span className={`currently-playing ${searchSelected ? "hidden" : "visible"}`}>
+                        {radioPlayer.station?.name}
+                    </span>
+                    <input className={`search flex1 ${searchSelected ? "visible" : "hidden"}`} 
+                           defaultValue={currentSearch.searchText} 
+                           onInput={ (e) => { this.searchTextChanged(e) } }>
+                    </input>
                 </div>
                 <div className="tabs flexible horizontal">
                     {tabTitles}

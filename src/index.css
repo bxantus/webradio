@@ -142,8 +142,10 @@ button {
   margin-right: 10px;
 }
 
-input {
+input.search {
   font-size: 18px;
+  font-family: var(--secondary-font);
+  border: none;
 }
 
 .station-header {
