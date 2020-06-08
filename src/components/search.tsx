@@ -1,9 +1,10 @@
 import React from 'react';
-import { RadioSearch, Station } from '../functions/radioApi';
+import { Station } from '../functions/radioApi';
+import SearchModel from '../functions/searchModel'
 import StationList from './stationList';
 
 interface SearchState {
-    search: RadioSearch|undefined
+    results: Station[] | undefined
     searching:boolean
 }
 
@@ -12,53 +13,45 @@ interface SearchProps {
     className?: string
 }
 
-let currentSearch:RadioSearch|undefined // only one search active at a time
+let currentSearch= new SearchModel
 
 export default class Search extends React.Component<SearchProps, SearchState> {
     constructor(props) {
         super(props)
         this.state = {
-            search: currentSearch,
+            results: undefined,
             searching: false
         }
         this.searchList = React.createRef<HTMLDivElement>()
     }
 
+    componentWillMount() {
+        currentSearch.subscribe("searching", (searching:boolean)=> {
+            this.setState({searching: searching})
+        })
+        currentSearch.subscribe("results", (res:Station[])=> {
+            this.setState({results: res})
+        })
+        currentSearch.subscribe("query", ()=> {
+            if (this.searchList.current) this.searchList.current.scrollTop = 0
+        })
+    }
+
     async searchTextChanged(e) {
         const query = e.target.value;
-        this.scheduleSearch(query)
+        currentSearch.scheduleSearch(query)
     }
 
-    private searchTimer
     private searchList:React.RefObject<HTMLDivElement>
 
-    async scheduleSearch(query:string) {
-        this.searchTimer = clearTimeout(this.searchTimer)
-        this.searchTimer = setTimeout(async () => {
-            let search = new RadioSearch({name: query})
-            currentSearch = search
-            this.setState({searching: true})
-            await search.search()
-            // reset scroll
-            if (this.searchList.current) this.searchList.current.scrollTop = 0
-            this.setState({
-                search,
-                searching: false
-            })
-        }, 400)
-    }
-
     render() {
-        const radioSearch = this.state.search; 
-        let results:Station[]|undefined 
-        if (radioSearch) {
-            results = radioSearch.results
-        }
+        const results = this.state.results
+        
         let searching = this.state.searching ? <span className="loading">Searching...</span> : undefined
         return (
             <div className={"search flexible vertical " + (this.props.className ?? "")}>
                 <div className="flexible horizontal">
-                    <input className="flex1" defaultValue={radioSearch ? radioSearch.query.name : ""} 
+                    <input className="flex1" defaultValue={currentSearch.searchText} 
                       onInput={ (e) => { this.searchTextChanged(e) } }></input>
                     {searching}
                 </div>
