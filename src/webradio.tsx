@@ -75,6 +75,20 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         currentSearch.scheduleSearch(query)
     }
 
+    private searchInput = React.createRef<HTMLInputElement>()
+    private focusOnSearch = false
+    selectSearch() {
+        this.changeTab(this.searchTab)
+        this.focusOnSearch = true
+    }
+
+    componentDidUpdate() {
+        if (this.focusOnSearch && this.searchInput.current) {
+            this.searchInput.current.focus()
+            this.focusOnSearch = false
+        }
+    }
+
     render() {
         const tabs = this.tabs
         const selectedTabName = this.state.selectedTab
@@ -101,6 +115,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
                         {radioPlayer.station?.name}
                     </span>
                     <input className={`search flex1 ${searchSelected ? "visible" : "hidden"}`} 
+                           ref={this.searchInput}
                            defaultValue={currentSearch.searchText} 
                            onInput={ (e) => { this.searchTextChanged(e) } }>
                     </input>
@@ -108,7 +123,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
                 <div className="tabs flexible horizontal">
                     {tabTitles}
                     <span className="flex1"></span>
-                    <a className="search-tab" onClick={e=> this.changeTab(this.searchTab)}>
+                    <a className="search-tab" onClick={e=> this.selectSearch()}>
                         <img className="icon search" src="webradio/icons/search.svg"></img>
                     </a>
                 </div>
