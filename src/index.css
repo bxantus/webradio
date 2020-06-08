@@ -39,8 +39,10 @@ code {
 .search-tab {
   align-self: stretch;
   width: 50px;
+  min-width: 50px;
   background-color: var(--theme-color);
   cursor: pointer;
+  margin-left: 7px;
 }
 
 .search-tab > .icon.search {
