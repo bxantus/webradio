@@ -6,24 +6,31 @@ interface StationsProps {
     onStationSelected?: (station:Station) => any
 }
 
+// tags are retrieved in a format split by commas, but no preceding space
+function formatTags(tags:string) {
+    return tags.replace(/,(?=[^\s])/g, ", ")
+}
+
+function formatCountry(country:string) {
+    return country.length > 0 ? country : "Unknown"
+}
+
 export default class StationList extends React.Component<StationsProps, {}> {
     render() {
         const stations = this.props.stations;
         if (stations) {
             let results = stations.map(station => 
-                                               <div className="clickable" onClick={ () => this.props?.onStationSelected?.(station) } key={station.id}>
-                                                 <div className="flexible horizontal station-header">
-                                                    <h3>{station.name}</h3>
-                                                    <span>{station.votes}</span>
-                                                 </div>
-                                                 <div>{station.tags}</div>
-                                                 <div className="flexible horizontal">
-                                                     <span className="flex1">{station.country}</span>
-                                                     <span className="bold codec">{station.codec} </span>
-                                                     <span>{station.bitrate} kbps</span>
-                                                 </div>
-                                                 <hr></hr>
-                                               </div> )
+                <div className="clickable station" onClick={ () => this.props?.onStationSelected?.(station) } key={station.id}>
+                    <h3>{station.name}</h3>
+                    <div className="tags">{formatTags(station.tags)}</div>
+                    <div className="flexible horizontal details">
+                        <span className="country">{formatCountry(station.country)}</span>
+                        <img className="votes" src="webradio/icons/votes.svg"></img>
+                        <span className="flex1">{station.votes}</span>
+                        <span className="codec">{station.codec} - {station.bitrate} kbps</span>
+                    </div>
+                    <hr></hr>
+                </div> )
             return results
         } else return null
     }

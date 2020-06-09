@@ -129,7 +129,6 @@ code {
   font-family: var(--secondary-font);
 }
 
-/* temp */
 .radio-App {
   padding-left: 25px;
   padding-right: 25px;
@@ -151,12 +150,32 @@ input.search {
   min-width: 20px;
 }
 
+.station {
+  padding-top: 13px;
+}
+
+.station > .tags {
+  font-size: 14px;
+  margin-bottom: 13px;
+}
+
 .station-header {
   align-items: baseline;
 }
 
-.station-header > h3 {
-  margin-bottom: 5px;
+.station > h3 {
+  font-size: 22px;
+  font-family: var(--secondary-font);
+  font-weight: bold;
+  margin: 0;
+}
+
+.station img.votes {
+  height: 16px;
+  align-self: end;
+  padding-bottom: 2px; /*todo: would be good to align on baseline*/
+  margin-left: 13px;
+  margin-right: 5px;
 }
 
 .station-header > span { /* votes */
@@ -166,10 +185,27 @@ input.search {
   font-size: 14px;
 }
 
-span.codec {
-  margin-right: 0.5em;
+.station > .details {
+  font-size: 16px;
+  white-space: nowrap;
 }
 
+.station .country {
+  min-width: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.station .codec {
+  margin-left: 13px;
+}
+
+.station > hr {
+  margin: 0;
+  border-bottom: 1px solid #a7a7a7;
+  border-top: 0;
+  margin-top: 13px;
+}
 /*slider positioning*/
 .slider {
   width: 300px;
