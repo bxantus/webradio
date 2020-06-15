@@ -117,19 +117,39 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
             detailText = <span>{detail}</span>
         }
 
-        return <div className={this.props.className}>
-                    <h2>{station.name}</h2>
-                    <p>in: {station.country}</p>
-                    <p>tags: {station.tags}</p>
+        const isFavorite = favorites.isFavorite(station)
+        const favoriteHeader = isFavorite
+                                    ? (<span>
+                                          <img className="small-ico like" src="webradio/icons/like.svg"></img>
+                                          Favorite
+                                       </span>
+                                      )
+                                    : undefined;
+
+        return <div className={this.props.className + " flexible vertical"}>
+                    <div className="player-header flexible horizontal">
+                        <span>{station.country}</span>
+                        <span>
+                            <img className="small-ico" src="webradio/icons/votes.svg"></img>
+                            {station.votes}
+                        </span>
+                        {favoriteHeader}
+                    </div>
+                    <h2 className="title">{station.name}</h2>
+                    <p className="tags">{station.tags}</p>
+                    <button className="favorite-toggle" onClick={()=> this.toggleFavorite()} >
+                        <img className="small-ico like" src={isFavorite ? "webradio/icons/unlike.svg" : "webradio/icons/like.svg"}></img>
+                        {isFavorite ? "Remove Favorite" : "Add as Favorite"}
+                    </button>
                     <p><span className="bold codec">{station.codec}</span>{station.bitrate} kbps</p>
                     <div>
                         <button onClick={e => this.togglePlayback()} >{playButtonText}</button> {/* toggle pause */}
                         {detailText}
                     </div>
                     <div>
-                        <button onClick={()=> this.toggleFavorite()} >{favorites.isFavorite(station) ? "Remove from favorites" : "Add to favorites"}</button>
+                        
                         <button onClick={()=> this.vote() }disabled={this.state.voting} >{this.state.voting ? "Voting..." : "Vote!"}</button>
-                        <span>{station.votes} votes</span>
+                        
                     </div>
                     <Slider model={this.volume} ></Slider>
                </div>
