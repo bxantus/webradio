@@ -1,5 +1,5 @@
 :root {
-  --secondary-font: Proxima Nova;
+  --secondary-font: 'Montserrat', sans-serif;
   --theme-color: #F93756;
 }
 code {
@@ -164,7 +164,6 @@ input.search {
 
 .station > h3 {
   font-size: 22px;
-  font-family: var(--secondary-font);
   font-weight: bold;
   margin: 0;
 }
