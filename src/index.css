@@ -253,6 +253,51 @@ button.favorite-toggle {
   background-color: #fff;
   align-self: center;
   margin-top: 17px;
+  margin-bottom: 58px;
+  /*todo: heart icon should move after toggle, text on center*/
+}
+
+div.play-area {
+  align-self: center;
+}
+
+.play {
+  width: 113px;
+  height: 71px;
+  border-radius: 36px ;
+  background-color: #ef4357;
+  border: none;
+  box-shadow: 6.561px 8px 0px #000;
+  margin-top: 0;
+  margin-bottom: 40px;
+}
+
+img.play-ico {
+  height: 27px;
+}
+
+.play-footer {
+  margin-bottom: 40px;
+  font-family: var(--secondary-font);
+  padding-left: 6px;
+  padding-right: 6px;
+  font-size: 16px;
+}
+
+.play-footer > *{
+  align-self: baseline;
+  
+}
+
+button.vote {
+  width: 75px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: #fff;
+  border: 1px solid #cacaca;
+  padding-right: 8px;
+  padding-left: 5px;
+  margin: 0px;
 }
 
 /*slider positioning*/

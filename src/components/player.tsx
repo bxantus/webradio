@@ -141,16 +141,20 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                         <img className="small-ico like" src={isFavorite ? "webradio/icons/unlike.svg" : "webradio/icons/like.svg"}></img>
                         {isFavorite ? "Remove Favorite" : "Add as Favorite"}
                     </button>
-                    <p><span className="bold codec">{station.codec}</span>{station.bitrate} kbps</p>
-                    <div>
-                        <button onClick={e => this.togglePlayback()} >{playButtonText}</button> {/* toggle pause */}
+                    <div className="play-area">
+                        <button className="play" onClick={e => this.togglePlayback()} >
+                            <img className="play-ico" src="webradio/icons/play.svg"></img>
+                        </button> 
                         {detailText}
                     </div>
-                    <div>
-                        
-                        <button onClick={()=> this.vote() }disabled={this.state.voting} >{this.state.voting ? "Voting..." : "Vote!"}</button>
-                        
+                    <div className="flexible horizontal play-footer">
+                        <span className="flex1">{station.codec} - {station.bitrate} kbps</span>
+                        <button className="vote" onClick={()=> this.vote() }disabled={this.state.voting} >
+                            <img className="small-ico" src="webradio/icons/votes.svg"></img>
+                            Vote
+                        </button>
                     </div>
+                    
                     <Slider model={this.volume} ></Slider>
                </div>
     }
