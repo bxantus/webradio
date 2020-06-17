@@ -14,7 +14,15 @@ export class Slider extends React.Component<SliderProps> {
         this.valueChangeSub = this.model.subscribe("value", () => {
             this.updateSliderStyles() // update thumb and progress pos
         })
-        this.updateSliderStyles() // initial style refresh
+        
+        this.setState({}) // trigger a refresh, so refs get sizes
+        if (this.thumb.current) {
+            this.thumb.current.setAttribute("touch-action",  "none") // in order for the pointerEvent polyfill to work
+        }
+    }
+
+    componentDidUpdate() {
+        this.updateSliderStyles() // style refresh
     }
 
     componentWillUnmount() {
@@ -42,7 +50,7 @@ export class Slider extends React.Component<SliderProps> {
     private sliderProgress = React.createRef<HTMLDivElement>()
     private dragging = false
 
-    onPointerMove(e:React.PointerEvent) {
+    onPointerMove(e:MouseEvent) {
         if (this.dragging && this.sliderBg.current && this.thumb.current) {
             
             const trackSize = this.sliderBg.current.clientWidth - this.thumb.current.clientWidth // corresponds to change in range max - min
@@ -54,26 +62,29 @@ export class Slider extends React.Component<SliderProps> {
         }
     }
 
-    onPointerDown(e:React.PointerEvent) {
+    moveListener = (e:MouseEvent) => this.onPointerMove(e)
+    upListener = (e:MouseEvent) => this.onPointerUp(e)
+
+    onPointerDown(e:React.MouseEvent) {
         // todo: check button/finger here
         this.posStartDrag = e.clientX
         this.valStart = this.model.val;
-        (e.target as any).setPointerCapture(e.pointerId) // move events will be forwarded to this item, as expected
-                                                         // see: https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events#Pointer_capture
         this.dragging = true
+        window.addEventListener("pointermove", this.moveListener)
+        window.addEventListener("pointerup", this.upListener)
     }
 
-    onPointerUp(e:React.PointerEvent) {
+    onPointerUp(e:MouseEvent) {
         this.dragging = false
+        window.removeEventListener("mousemove", this.moveListener)
+        window.removeEventListener("mouseup", this.upListener)
     }
 
     render() {
         return <div className="slider bg" ref={this.sliderBg}>
                     <div className="slider progress" ref={this.sliderProgress}></div>
                     <span className="thumb" ref={this.thumb} 
-                          onPointerDown={e=>this.onPointerDown(e)} 
-                          onPointerMove={e=>this.onPointerMove(e)} 
-                          onPointerUp={e=> this.onPointerUp(e)} >
+                          onPointerDown={e=>this.onPointerDown(e)}>
                     </span>
                </div>
     }
