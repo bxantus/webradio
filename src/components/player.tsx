@@ -126,7 +126,7 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                                       )
                                     : undefined;
 
-        return <div className={this.props.className + " flexible vertical"}>
+        return <div className={this.props.className + " flexible vertical player"}>
                     <div className="player-header flexible horizontal">
                         <span>{station.country}</span>
                         <span>
