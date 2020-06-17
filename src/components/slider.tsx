@@ -14,6 +14,7 @@ export class Slider extends React.Component<SliderProps> {
         this.valueChangeSub = this.model.subscribe("value", () => {
             this.updateSliderStyles() // update thumb and progress pos
         })
+        this.updateSliderStyles() // initial style refresh
     }
 
     componentWillUnmount() {
@@ -32,10 +33,6 @@ export class Slider extends React.Component<SliderProps> {
                 this.sliderProgress.current.setAttribute("style", `width: ${pos + thumbWidth / 2}px`)
             }
         }
-    }
-
-    componentDidUpdate() {
-        this.updateSliderStyles()
     }
 
     private posStartDrag = 0
