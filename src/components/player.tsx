@@ -143,7 +143,8 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                     </button>
                     <div className="play-area">
                         <button className="play" onClick={e => this.togglePlayback()} >
-                            <img className="play-ico" src="webradio/icons/play.svg"></img>
+                            <img className="play-ico" src={status == "stop" ? "webradio/icons/play.svg" : "webradio/icons/stop.svg"}>
+                            </img>
                         </button> 
                         {detailText}
                     </div>
