@@ -156,7 +156,9 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                         </button>
                     </div>
                     
-                    <Slider model={this.volume} ></Slider>
+                    <Slider model={this.volume} >
+                        <img className="volume" src="webradio/icons/volume.svg"></img>
+                    </Slider>
                </div>
     }
 }

@@ -85,6 +85,7 @@ export class Slider extends React.Component<SliderProps> {
                     <div className="slider progress" ref={this.sliderProgress}></div>
                     <span className="thumb" ref={this.thumb} 
                           onPointerDown={e=>this.onPointerDown(e)}>
+                        {this.props.children}
                     </span>
                </div>
     }

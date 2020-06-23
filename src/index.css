@@ -320,4 +320,10 @@ button.vote {
   height: 49px;
   border-radius: 50%;
   background-color: var(--slider-color);
+  display: flex;
+  justify-content: center;
+}
+
+.slider  .thumb > img.volume {
+  align-self: center;
 }
