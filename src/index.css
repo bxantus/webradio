@@ -8,6 +8,10 @@ code {
     monospace;
 }
 
+a:focus,button:focus,input:focus,textarea:focus {
+  outline: none;
+}
+
 body {
   scrollbar-width: thin;
 }
@@ -29,6 +33,11 @@ body {
   align-self: stretch;
   justify-content: center;
   position: relative;
+}
+
+.tab:active, .tab:focus {
+  background: none;
+  outline: none;
 }
 
 .tab > .selection {
