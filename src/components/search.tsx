@@ -47,7 +47,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
         return (
             <div className={"search flexible vertical " + (this.props.className ?? "")}>
                 
-                <div ref={this.searchList} className="results scrollable">
+                <div ref={this.searchList} className="results">
                     <StationList stations={results} onStationSelected={this.props?.onStationSelected}></StationList>
                 </div>
                 

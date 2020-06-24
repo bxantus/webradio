@@ -43,7 +43,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
 
     get tabs() {
         return [
-            { title: "Favorites", content: (cls:string) => <div className={"scrollable " + cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
+            { title: "Favorites", content: (cls:string) => <div className={cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
             { title: "Playing", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
             { title: "About", content: (cls:string) => <About className={cls} ></About>},
         ]
@@ -107,27 +107,31 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         const searchSelected = this.searchTab == selectedTab;
         
         return (
-            <div className="radio-App flexible vertical">
-                <div className="header flexible horizontal">
-                    <img className="logo" src="webradio/logo.svg"></img>
-                    {/*todo: here should be a choice depending on search screen activated or not*/}
-                    <span className={`currently-playing ${searchSelected ? "hidden" : "visible"}`}>
-                        {radioPlayer.station?.name}
-                    </span>
-                    <input className={`search flex1 ${searchSelected ? "visible" : "hidden"}`} 
-                           ref={this.searchInput}
-                           defaultValue={currentSearch.searchText} 
-                           onInput={ (e) => { this.searchTextChanged(e) } }>
-                    </input>
+            <div className="radio-App">
+                <div id="top" className="flexible vertical radio">
+                    <div className="header flexible horizontal">
+                        <img className="logo" src="webradio/logo.svg"></img>
+                        {/*todo: here should be a choice depending on search screen activated or not*/}
+                        <span className={`currently-playing ${searchSelected ? "hidden" : "visible"}`}>
+                            {radioPlayer.station?.name}
+                        </span>
+                        <input className={`search flex1 ${searchSelected ? "visible" : "hidden"}`} 
+                            ref={this.searchInput}
+                            defaultValue={currentSearch.searchText} 
+                            onInput={ (e) => { this.searchTextChanged(e) } }>
+                        </input>
+                    </div>
+                    <div className="tabs flexible horizontal">
+                        {tabTitles}
+                        <span className="flex1"></span>
+                        <a className="search-tab" onClick={e=> this.selectSearch()}>
+                            <img className="icon search" src="webradio/icons/search.svg"></img>
+                        </a>
+                    </div>
                 </div>
-                <div className="tabs flexible horizontal">
-                    {tabTitles}
-                    <span className="flex1"></span>
-                    <a className="search-tab" onClick={e=> this.selectSearch()}>
-                        <img className="icon search" src="webradio/icons/search.svg"></img>
-                    </a>
+                <div id="content" className="radio flexible vertical">
+                    {tabContent}
                 </div>
-                {tabContent}
             </div>
         )
     }

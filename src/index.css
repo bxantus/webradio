@@ -8,6 +8,10 @@ code {
     monospace;
 }
 
+body {
+  scrollbar-width: thin;
+}
+
 .tabs {
   height: 50px;
   min-height: 50px;
@@ -76,19 +80,11 @@ code {
 
 .flexible.vertical {
   flex-direction: column;
-  min-height: 0;  /*needs min height, otherwise won't be shrunk*/
+  /*NOTE: min-height should be set for items set to shrink*/
 }
 
 .flexible.horizontal {
   flex-direction: row;
-}
-
-.flexible.vertical > .scrollable {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  min-height: 0;
-  scrollbar-width: thin;
 }
 
 .bold {
@@ -98,6 +94,17 @@ code {
 /* hidden */
 .hidden {
   display: none;
+}
+
+div#top {
+  padding-top: 11px;
+  position: fixed;
+  top: 0px;
+  background-color: #ffffff;
+}
+
+div#content {
+  padding-top: 130px;
 }
 
 .header > img.logo {
@@ -118,11 +125,11 @@ code {
   font-family: var(--secondary-font);
 }
 
-.radio-App {
+.radio {
   padding-left: 17px;
   padding-right: 17px;
-  padding-top: 11px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 button {
@@ -334,6 +341,7 @@ button.vote {
 /*about*/
 .about {
   font-family: var(--secondary-font);
+  padding-bottom: 40px; /*30 + 10 for shadow*/
 }
 
 a:visited, a, a:active {
