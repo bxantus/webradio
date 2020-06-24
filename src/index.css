@@ -254,7 +254,17 @@ button.favorite-toggle {
   align-self: center;
   margin-top: 17px;
   margin-bottom: 58px;
-  /*todo: heart icon should move after toggle, text on center*/
+  display: flex;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+button.favorite-toggle > * {
+  align-self: center;
+}
+
+button > .text {
+  margin:auto; /*align horizontaly centerred with the remaining space*/
 }
 
 div.play-area {

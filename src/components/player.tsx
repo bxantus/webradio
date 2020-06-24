@@ -139,7 +139,7 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                     <p className="tags">{station.tags}</p>
                     <button className="favorite-toggle" onClick={()=> this.toggleFavorite()} >
                         <img className="small-ico like" src={isFavorite ? "webradio/icons/unlike.svg" : "webradio/icons/like.svg"}></img>
-                        {isFavorite ? "Remove Favorite" : "Add as Favorite"}
+                        <span className="text">{isFavorite ? "Remove Favorite" : "Add as Favorite"}</span>
                     </button>
                     <div className="play-area">
                         <button className="play" onClick={e => this.togglePlayback()} >
