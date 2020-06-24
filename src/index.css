@@ -216,7 +216,10 @@ img.small-ico.like {
 }
 
 h2 {
+  font-family: var(--font);
   font-size: 40px;
+  margin-top: 37px;
+  margin-bottom: 25px;
 }
 
 h2.title {
@@ -326,4 +329,38 @@ button.vote {
 
 .slider  .thumb > img.volume {
   align-self: center;
+}
+
+/*about*/
+.about {
+  font-family: var(--secondary-font);
+}
+
+a:visited, a, a:active {
+  text-decoration: none;
+  color: var(--theme-color);
+  white-space: nowrap;
+}
+
+.qr-code {
+  width: 162px;
+  height: 163px;
+  border-radius: 33px;
+  box-shadow: 10.7px 11.8px 0px var(--theme-color);
+  border: 3px solid #000000;
+  background-color: #ffffff;
+  float: right;
+  margin-right: 10px;
+  margin-left: 42px;
+}
+
+h4 {
+  font-size: 18px;
+  text-transform: uppercase;
+  margin-bottom: 0px;
+}
+
+.about p.small-margin {
+  margin-top: 2px;
+  margin-bottom: 2px;
 }

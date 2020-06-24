@@ -25,6 +25,8 @@ export default class RadioPlayer {
             this.player.unload()
             this.player = undefined
         }
+        // todo: use subscription repository and notify about station change in the player
+        //       status change also should be fired through subs repo
         this.fireStatusChange("load", "station")
         this.station = station
         
