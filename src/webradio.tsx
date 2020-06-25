@@ -122,6 +122,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
                         </input>
                     </div>
                     <div className="tabs flexible horizontal">
+                        <span className="flex1"></span>
                         {tabTitles}
                         <span className="flex1"></span>
                         <a className="search-tab" onClick={e=> this.selectSearch()}>
