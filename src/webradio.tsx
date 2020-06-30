@@ -111,7 +111,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
                 <div id="top" className="flexible vertical radio">
                     <div className="header flexible horizontal">
                         <img className="logo" src="webradio/logo.svg"></img>
-                        {/*todo: here should be a choice depending on search screen activated or not*/}
+                        <span className={`divider ${searchSelected ? "blinking" : "static"}`}></span>
                         <span className={`currently-playing ${searchSelected ? "hidden" : "visible"}`}>
                             {radioPlayer.station?.name}
                         </span>

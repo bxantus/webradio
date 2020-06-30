@@ -119,10 +119,15 @@ div#content {
 .header > img.logo {
   width: 121px;
   min-width: 121px;
-  
-  border-right: 3px #FFC335 solid;
-  padding-right: 10px;
+}
+
+.header > .divider {
+  margin-left: 10px;
   margin-right: 18px;
+  width: 3px;
+  height: 40px;
+  align-self: center;
+  background-color: #FFC335; 
 }
 
 .header > .currently-playing {
@@ -156,6 +161,7 @@ input.search {
   font-family: var(--secondary-font);
   border: none;
   min-width: 20px;
+  caret-color: transparent; /*todo: great idea?*/
 }
 
 .station {
@@ -398,4 +404,30 @@ h4 {
 .about p.small-margin {
   margin-top: 2px;
   margin-bottom: 2px;
+}
+
+/* animations */
+@keyframes blinking {
+  0% {
+    opacity: 100%;
+  }
+  50% {
+    opacity: 100%;
+  }
+
+  100% {
+    opacity: 0%;
+  }
+}
+
+
+.divider.static {
+  opacity: 100%;
+}
+
+.divider.blinking {
+  animation-name: blinking;
+  animation-duration: 0.5s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
 }
