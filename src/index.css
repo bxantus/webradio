@@ -13,8 +13,7 @@
 
   .radio-App {
     background-color: #fff;
-    margin-bottom: 50px;
-    min-height: calc(100vh - 50px);
+    min-height: 100vh;
   }
 
   div#top {
@@ -141,7 +140,7 @@ div#content {
 .header > .divider {
   margin-left: 10px;
   margin-right: 18px;
-  width: 3px;
+  min-width: 3px;
   height: 40px;
   align-self: center;
   background-color: #FFC335; 
@@ -189,6 +188,7 @@ input.search {
   font-size: 14px;
   margin-bottom: 13px;
   font-family: var(--secondary-font);
+  font-weight: 300;
 }
 
 .station-header {
@@ -199,6 +199,7 @@ input.search {
   font-size: 22px;
   font-weight: bold;
   margin: 0;
+  line-height: 1.1;
 }
 
 img.votes {
@@ -231,6 +232,7 @@ img.small-ico.like {
   font-size: 16px;
   font-family: var(--secondary-font);
   white-space: nowrap;
+  font-weight: 300;
 }
 
 .station .country {
@@ -258,6 +260,7 @@ img.small-ico.like {
   margin-top: 30px;
   justify-content: center;
   font-family: var(--secondary-font);
+  font-weight: 300;
 }
 
 h2 {
@@ -265,11 +268,11 @@ h2 {
   font-size: 40px;
   margin-top: 37px;
   margin-bottom: 25px;
+  line-height: 1.1;
 }
 
 h2.title {
   text-align: center;
-  line-height: 43px;
   margin-top: 15px;
   margin-bottom: 15px;
 }
@@ -279,6 +282,7 @@ p.tags {
   text-align: center;
   font-family: var(--secondary-font);
   font-size: 14px;
+  font-weight: 300;
 }
 
 button.favorite-toggle {
@@ -288,7 +292,6 @@ button.favorite-toggle {
   border: 1px solid #cacaca;
   font-size: 16px;
   font-family: var(--secondary-font);
-  font-weight: bold;
   background-color: #fff;
   align-self: center;
   margin-top: 17px;
@@ -310,6 +313,12 @@ div.play-area {
   align-self: center;
 }
 
+img.play-ico {
+  position: relative;
+  left: 3px;
+  top: 2px
+}
+
 button.play {
   width: 113px;
   height: 71px;
@@ -327,6 +336,7 @@ button.play {
   padding-left: 6px;
   padding-right: 6px;
   font-size: 16px;
+  font-weight: 300;
 }
 
 .play-footer > *{
@@ -343,6 +353,7 @@ button.vote {
   padding-right: 8px;
   padding-left: 5px;
   margin: 0px;
+  font: inherit;
 }
 
 .player {
@@ -391,6 +402,7 @@ button.vote {
 .about {
   font-family: var(--secondary-font);
   padding-bottom: 40px; /*30 + 10 for shadow*/
+  font-weight: 300;
 }
 
 a:visited, a, a:active {
