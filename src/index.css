@@ -3,6 +3,27 @@
   --theme-color: #F93756;
   --slider-color: #fac802;
 }
+
+@media (orientation: landscape) and (min-width: 550px){
+  body {
+    max-width: 550px;
+    margin: auto;
+    background-color: #F5F5F6;
+  }
+
+  .radio-App {
+    background-color: #fff;
+    margin-bottom: 50px;
+    min-height: calc(100vh - 50px);
+  }
+
+  div#top {
+    max-width: 550px;
+  }
+  /*see: https://css-tricks.com/elegant-fix-jumping-scrollbar-issue/*/
+  html { margin-left: calc(100vw - 100%); }
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -12,7 +33,7 @@ a:focus,button:focus,input:focus,textarea:focus {
   outline: none;
 }
 
-body {
+html {
   scrollbar-width: thin;
 }
 
@@ -64,10 +85,6 @@ body {
   height: 100%;
   box-sizing: border-box;
   padding:14px;
-}
-
-.radio-App {
-  height: 100vh;
 }
 
 .search {
