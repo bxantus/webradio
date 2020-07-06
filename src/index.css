@@ -293,7 +293,7 @@ div.play-area {
   align-self: center;
 }
 
-.play {
+button.play {
   width: 113px;
   height: 71px;
   border-radius: 36px ;
@@ -391,19 +391,21 @@ a:visited, a, a:active {
   background-color: #ffffff;
   float: right;
   margin-right: 10px;
-  margin-left: 42px;
+  margin-left: 25px;
 }
 
 h4 {
-  font-size: 18px;
-  font-weight: normal;
-  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: bold;
+  /*text-transform: uppercase;*/
   margin-bottom: 0px;
+  padding-top: 30px;
 }
 
 .about p.small-margin {
   margin-top: 2px;
   margin-bottom: 2px;
+  font-size: 13px;
 }
 
 /* animations */
@@ -427,7 +429,34 @@ h4 {
 
 .divider.blinking {
   animation-name: blinking;
-  animation-duration: 0.5s;
+  animation-duration: 0.4s;
   animation-direction: alternate;
   animation-iteration-count: infinite;
+}
+
+@keyframes loading{
+  0% {
+    width: 11px;
+  }
+  90% {
+    width: 44px;
+  }
+  100% {
+    width: 44px;
+  }
+}
+
+.play-ico.load {
+  animation-name: loading;
+  animation-duration: 0.8s;
+  /*animation-timing-function: ease-in;*/
+  animation-iteration-count: infinite;
+  overflow: hidden;
+  object-fit: none;
+  object-position: center center;
+  
+  /* debug: border: 1px aqua solid; */
+  border-radius: 12px;
+
+  height: 30.833px;
 }

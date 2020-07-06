@@ -104,18 +104,15 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
         if (!station) return null
         let status = this.getPlayStatus()
         
-        const buttonTextByStatus = {
-            play: "Stop",
-            stop: "Play",
-            load: "Loading",
-            error: `Error ${this.state.detail ?? ""}`
+        const iconsForStatus = {
+            play: "stop.svg",
+            stop: "play.svg",
+            load: "loading.svg",
         }
-        let playButtonText = buttonTextByStatus[status] ?? "Error"
-        let detailText:JSX.Element | undefined
+
+        const buttonIcon =  status != "error" ? `webradio/icons/${iconsForStatus[status]}` : "";  
         const detail = this.getPlayDetail()
-        if (detail) {
-            detailText = <span>{detail}</span>
-        }
+        
 
         const isFavorite = favorites.isFavorite(station)
         const favoriteHeader = isFavorite
@@ -143,17 +140,18 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                     </button>
                     <div className="play-area">
                         <button className="play" onClick={e => this.togglePlayback()} >
-                            <img className="play-ico" src={status == "stop" ? "webradio/icons/play.svg" : "webradio/icons/stop.svg"}>
-                            </img>
+                            <img className={`play-ico ${status}`} src={buttonIcon}></img>
                         </button> 
-                        {detailText}
+                        {
+                            // todo: add overlay for error messages
+                        }
                     </div>
                     <div className="flexible horizontal play-footer">
                         <span className="flex1">{station.codec} - {station.bitrate} kbps</span>
                         <button className="vote" onClick={()=> this.vote() }disabled={this.state.voting} >
                             <img className="small-ico" src="webradio/icons/votes.svg"></img>
                             Vote
-                        </button>
+                        </button> 
                     </div>
                     
                     <Slider model={this.volume} >
