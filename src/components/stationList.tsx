@@ -25,7 +25,7 @@ export default class StationList extends React.Component<StationsProps, {}> {
                     <div className="tags">{formatTags(station.tags)}</div>
                     <div className="flexible horizontal details">
                         <span className="country">{formatCountry(station.country)}</span>
-                        <img className="votes" src="webradio/icons/votes.svg"></img>
+                        <img className="votes" src="/webradio/icons/votes.svg"></img>
                         <span className="flex1">{station.votes}</span>
                         <span className="codec">{station.codec} - {station.bitrate} kbps</span>
                     </div>

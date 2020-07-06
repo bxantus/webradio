@@ -110,7 +110,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
             <div className="radio-App">
                 <div id="top" className="flexible vertical radio">
                     <div className="header flexible horizontal">
-                        <img className="logo" src="webradio/logo.svg"></img>
+                        <img className="logo" src="/webradio/logo.svg"></img>
                         <span className={`divider ${searchSelected ? "blinking" : "static"}`}></span>
                         <span className={`currently-playing ${searchSelected ? "hidden" : "visible"}`}>
                             {radioPlayer.station?.name}
@@ -126,7 +126,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
                         {tabTitles}
                         <span className="flex1"></span>
                         <a className="search-tab" onClick={e=> this.selectSearch()}>
-                            <img className="icon search" src="webradio/icons/search.svg"></img>
+                            <img className="icon search" src="/webradio/icons/search.svg"></img>
                         </a>
                     </div>
                 </div>

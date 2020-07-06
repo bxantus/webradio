@@ -110,14 +110,14 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
             load: "loading.svg",
         }
 
-        const buttonIcon =  status != "error" ? `webradio/icons/${iconsForStatus[status]}` : "";  
+        const buttonIcon =  status != "error" ? `/webradio/icons/${iconsForStatus[status]}` : "";  
         const detail = this.getPlayDetail()
         
 
         const isFavorite = favorites.isFavorite(station)
         const favoriteHeader = isFavorite
                                     ? (<span>
-                                          <img className="small-ico like" src="webradio/icons/like.svg"></img>
+                                          <img className="small-ico like" src="/webradio/icons/like.svg"></img>
                                           Favorite
                                        </span>
                                       )
@@ -127,7 +127,7 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                     <div className="player-header flexible horizontal">
                         <span>{station.country}</span>
                         <span>
-                            <img className="small-ico" src="webradio/icons/votes.svg"></img>
+                            <img className="small-ico" src="/webradio/icons/votes.svg"></img>
                             {station.votes}
                         </span>
                         {favoriteHeader}
@@ -135,7 +135,7 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                     <h2 className="title">{station.name}</h2>
                     <p className="tags">{station.tags}</p>
                     <button className="favorite-toggle" onClick={()=> this.toggleFavorite()} >
-                        <img className="small-ico like" src={isFavorite ? "webradio/icons/unlike.svg" : "webradio/icons/like.svg"}></img>
+                        <img className="small-ico like" src={isFavorite ? "/webradio/icons/unlike.svg" : "/webradio/icons/like.svg"}></img>
                         <span className="text">{isFavorite ? "Remove Favorite" : "Add as Favorite"}</span>
                     </button>
                     <div className="play-area">
@@ -149,13 +149,13 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                     <div className="flexible horizontal play-footer">
                         <span className="flex1">{station.codec} - {station.bitrate} kbps</span>
                         <button className="vote" onClick={()=> this.vote() }disabled={this.state.voting} >
-                            <img className="small-ico" src="webradio/icons/votes.svg"></img>
+                            <img className="small-ico" src="/webradio/icons/votes.svg"></img>
                             Vote
                         </button> 
                     </div>
                     
                     <Slider model={this.volume} >
-                        <img className="volume" src="webradio/icons/volume.svg" draggable="false"></img>
+                        <img className="volume" src="/webradio/icons/volume.svg" draggable="false"></img>
                     </Slider>
                </div>
     }
