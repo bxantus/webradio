@@ -116,7 +116,7 @@ export class RadioSearch {
 export async function getStreamUrl(station:Station) {
     var url = `${apiUrl}/url/${station.id}`;
     var res = await fetch(url).then(res=>res.json())
-    if (res && res.ok)
+    if (res && res.url)
         return res.url as string;
     else return undefined;
 }
