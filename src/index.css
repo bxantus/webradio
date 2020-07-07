@@ -1,26 +1,89 @@
+:root {
+  --secondary-font: 'Montserrat', sans-serif;
+  --theme-color: #F93756;
+  --slider-color: #fac802;
+}
+
+@media (orientation: landscape) and (min-width: 550px){
+  body {
+    max-width: 550px;
+    margin: auto;
+    background-color: #F5F5F6;
+  }
+
+  .radio-App {
+    background-color: #fff;
+    min-height: 100vh;
+  }
+
+  div#top {
+    max-width: 550px;
+  }
+  /*see: https://css-tricks.com/elegant-fix-jumping-scrollbar-issue/*/
+  html { margin-left: calc(100vw - 100%); }
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
+a:focus,button:focus,input:focus,textarea:focus {
+  outline: none;
+}
+
+html {
+  scrollbar-width: thin;
+}
+
 .tabs {
-  padding-top: 1em;
-  padding-bottom: 1em;
+  height: 50px;
+  min-height: 50px;
+  margin-top: 16px;
+  font-size: 16px;
+  font-family: var(--secondary-font);
+  background-color: #F1F1F1;
+  padding-left: 7px;
 }
 
 .tab {
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 13px;
+  padding-right: 13px;
   cursor: pointer;
+  align-self: stretch;
+  justify-content: center;
+  position: relative;
 }
 
-.tab.selected {
-  font-weight: bold;
+.tab:active, .tab:focus {
+  background: none;
+  outline: none;
 }
 
-.radio-App {
-  height: 100vh;
+.tab > .selection {
+  position: absolute;
+  left: calc(50% - 13px);
+  bottom: 0;
+  width: 26px;
+  height: 13px;
+  background-color: #fff;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+.search-tab {
+  align-self: stretch;
+  width: 50px;
+  min-width: 50px;
+  background-color: var(--theme-color);
+  cursor: pointer;
+  margin-left: 7px;
+}
+
+.search-tab > .icon.search {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding:14px;
 }
 
 .search {
@@ -42,20 +105,11 @@ code {
 
 .flexible.vertical {
   flex-direction: column;
-  min-height: 0;  /*needs min height, otherwise won't be shrunk*/
+  /*NOTE: min-height should be set for items set to shrink*/
 }
 
 .flexible.horizontal {
   flex-direction: row;
-}
-
-.flexible.vertical > .scrollable {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  min-height: 0;
-  scrollbar-width: thin;
-  padding-right: 1em;
 }
 
 .bold {
@@ -67,40 +121,104 @@ code {
   display: none;
 }
 
-/* slider*/
-.slider {
-  background-position: left center;
-  background-color: #888;
-  position: relative;
+div#top {
+  padding-top: 11px;
+  position: fixed;
+  top: 0px;
+  background-color: #ffffff;
 }
 
-.slider  .thumb {
-  position: absolute;
+div#content {
+  padding-top: 130px;
 }
 
-/* temp */
-.radio-App {
-  padding-left: 1em;
-  padding-right: 1em;
+.header > img.logo {
+  width: 121px;
+  min-width: 121px;
+}
+
+.header > .divider {
+  margin-left: 10px;
+  margin-right: 18px;
+  min-width: 3px;
+  height: 40px;
+  align-self: center;
+  background-color: #FFC335; 
+}
+
+.header > .currently-playing {
+  align-self: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 18px;
+  font-family: var(--secondary-font);
+  text-transform: uppercase;
+}
+
+.radio {
+  padding-left: 17px;
+  padding-right: 17px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 button {
   padding: 5px;
   font-size: 16px;
+  font-family: inherit;
   margin-bottom: 10px;
   margin-right: 10px;
+  white-space: nowrap;
 }
 
-input {
+input.search {
   font-size: 18px;
+  font-family: var(--secondary-font);
+  border: none;
+  min-width: 20px;
+  caret-color: transparent; /*todo: great idea?*/
+}
+
+.station {
+  padding-top: 13px;
+}
+
+.station > .tags {
+  font-size: 14px;
+  margin-bottom: 13px;
+  font-family: var(--secondary-font);
+  font-weight: 300;
 }
 
 .station-header {
   align-items: baseline;
 }
 
-.station-header > h3 {
-  margin-bottom: 5px;
+.station > h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.1;
+}
+
+img.votes {
+  height: 16px;
+  align-self: end;
+  padding-bottom: 2px; /*todo: would be good to align on baseline*/
+  margin-left: 13px;
+  margin-right: 5px;
+}
+
+img.small-ico {
+  height: 14px;
+  align-self: end;
+  margin-right: 5px;
+  margin-bottom: -1px;
+}
+
+img.small-ico.like {
+  height: 13px;
 }
 
 .station-header > span { /* votes */
@@ -110,21 +228,264 @@ input {
   font-size: 14px;
 }
 
-span.codec {
-  margin-right: 0.5em;
+.station > .details {
+  font-size: 16px;
+  font-family: var(--secondary-font);
+  white-space: nowrap;
+  font-weight: 300;
 }
 
-/*slider positioning*/
-.slider {
-  width: 300px;
-  height: 6px;
+.station .country {
+  min-width: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.station .codec {
+  margin-left: 13px;
+}
+
+.station > hr {
+  margin: 0;
+  border-bottom: 1px solid #a7a7a7;
+  border-top: 0;
+  margin-top: 13px;
+}
+/*player screen*/
+.player-header > span {
+  margin-right: 15px;
+}
+
+.player-header {
+  margin-top: 30px;
+  justify-content: center;
+  font-family: var(--secondary-font);
+  font-weight: 300;
+}
+
+h2 {
+  font-family: var(--font);
+  font-size: 40px;
+  margin-top: 37px;
+  margin-bottom: 25px;
+  line-height: 1.1;
+}
+
+h2.title {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+p.tags {
+  margin:0;
+  text-align: center;
+  font-family: var(--secondary-font);
+  font-size: 14px;
+  font-weight: 300;
+}
+
+button.favorite-toggle {
+  width: 190px;
+  height: 47px;
+  border-radius: 24px;
+  border: 1px solid #cacaca;
+  font-size: 16px;
+  font-family: var(--secondary-font);
+  background-color: #fff;
+  align-self: center;
+  margin-top: 17px;
+  margin-bottom: 58px;
+  display: flex;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+button.favorite-toggle > * {
+  align-self: center;
+}
+
+button > .text {
+  margin:auto; /*align horizontaly centerred with the remaining space*/
+}
+
+div.play-area {
+  align-self: center;
+}
+
+img.play-ico {
+  position: relative;
+  left: 3px;
+  top: 2px
+}
+
+button.play {
+  width: 113px;
+  height: 71px;
+  border-radius: 36px ;
+  background-color: var(--theme-color);
+  border: none;
+  box-shadow: 6.561px 8px 0px #000;
+  margin-top: 0;
+  margin-bottom: 40px;
+}
+
+.play-footer {
+  margin-bottom: 40px;
+  font-family: var(--secondary-font);
+  padding-left: 6px;
+  padding-right: 6px;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.play-footer > *{
+  align-self: baseline;
+  
+}
+
+button.vote {
+  width: 75px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: #fff;
+  border: 1px solid #cacaca;
+  padding-right: 8px;
+  padding-left: 5px;
+  margin: 0px;
+  font: inherit;
+}
+
+.player {
+  padding-bottom: 50px;
+}
+
+/* slider*/
+.slider.bg {
+  background-position: left center;
+  background-color: #d8d8d8;
+  position: relative;
+}
+
+.slider.progress {
+  background-position: left center;
+  background-color: var(--slider-color);
+  position: absolute;
 }
 
 .slider  .thumb {
-  width: 20px;
-  height: 20px;
-  left: -10px;
-  top: -10px; /* could we center otherwise? */
+  position: absolute;
+}
+
+
+/*slider positioning*/
+.slider {
+  width: 100%;
+  height: 9px;
+  min-height: 9px;
+}
+
+.slider  .thumb {
+  width: 49px;
+  height: 49px;
   border-radius: 50%;
-  background-color: #333;
+  background-color: var(--slider-color);
+  display: flex;
+  justify-content: center;
+}
+
+.slider  .thumb > img.volume {
+  align-self: center;
+}
+
+/*about*/
+.about {
+  font-family: var(--secondary-font);
+  padding-bottom: 40px; /*30 + 10 for shadow*/
+  font-weight: 300;
+}
+
+a:visited, a, a:active {
+  text-decoration: none;
+  color: var(--theme-color);
+  white-space: nowrap;
+}
+
+.qr-code {
+  width: 162px;
+  height: 163px;
+  border-radius: 33px;
+  box-shadow: 10.7px 11.8px 0px var(--theme-color);
+  border: 3px solid #000000;
+  background-color: #ffffff;
+  float: right;
+  margin-right: 10px;
+  margin-left: 25px;
+}
+
+h4 {
+  font-size: 15px;
+  font-weight: bold;
+  /*text-transform: uppercase;*/
+  margin-bottom: 0px;
+  padding-top: 30px;
+}
+
+.about p.small-margin {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+
+/* animations */
+@keyframes blinking {
+  0% {
+    opacity: 100%;
+  }
+  50% {
+    opacity: 100%;
+  }
+
+  100% {
+    opacity: 0%;
+  }
+}
+
+
+.divider.static {
+  opacity: 100%;
+}
+
+.divider.blinking {
+  animation-name: blinking;
+  animation-duration: 0.4s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+@keyframes loading{
+  0% {
+    width: 11px;
+  }
+  90% {
+    width: 44px;
+  }
+  100% {
+    width: 44px;
+  }
+}
+
+.play-ico.load {
+  animation-name: loading;
+  animation-duration: 0.8s;
+  /*animation-timing-function: ease-in;*/
+  animation-iteration-count: infinite;
+  overflow: hidden;
+  object-fit: none;
+  object-position: center center;
+  
+  /* debug: border: 1px aqua solid; */
+  border-radius: 12px;
+
+  height: 30.833px;
 }

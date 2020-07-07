@@ -89,6 +89,7 @@ function toStation(r:RadioStation):Station {
 export class RadioSearch {
     public query: Query
     private offset = 0
+    private _hasMoreResults = false
 
     results:Station[] = []
     constructor(query: Query) {
@@ -97,6 +98,7 @@ export class RadioSearch {
             this.query.limit = 20
     }
 
+    /// @return with the number of stations found
     async search() {
         // compute url
         let url = `${apiUrl}/stations/search?name=${this.query.name}&order=votes&reverse=true&limit=${this.query.limit}&offset=${this.offset}`
@@ -104,13 +106,17 @@ export class RadioSearch {
         let results = await fetch(url).then(res => res.json())
         let res:Station[] = results.map(toStation)
         this.results.push(...res)
+        this.offset = this.results.length
+        this._hasMoreResults = res.length == this.query.limit // when fever results are returned, then no more results are available
     }
+
+    get hasMoreResults() { return this._hasMoreResults }
 }
 
 export async function getStreamUrl(station:Station) {
     var url = `${apiUrl}/url/${station.id}`;
     var res = await fetch(url).then(res=>res.json())
-    if (res && res.ok)
+    if (res && res.url)
         return res.url as string;
     else return undefined;
 }

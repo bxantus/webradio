@@ -6,6 +6,7 @@ import About from './components/about';
 import StationList from './components/stationList';
 import { favorites } from './functions/favorites';
 import { getLastPlayedStation } from './functions/lastPlayed';
+import SearchModel from './functions/searchModel'
 
 interface RadioState {
     selectedTab:string
@@ -16,6 +17,8 @@ interface Tab {
     title: string
     content: (cls:string) => JSX.Element
 }
+
+let currentSearch= new SearchModel
 
 export default class WebradioApp extends React.Component<{}, RadioState> {
     state:RadioState = {
@@ -40,12 +43,13 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
 
     get tabs() {
         return [
-            { title: "Search", content: (cls:string) => <RadioSearch className={cls} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> },
-            { title: "Favorites", content: (cls:string) => <div className={"scrollable " + cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
-            { title: "Play", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
-            { title: "About", content: (cls:string) => <About className={cls} ></About>}
+            { title: "Favorites", content: (cls:string) => <div className={cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
+            { title: "Playing", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
+            { title: "About", content: (cls:string) => <About className={cls} ></About>},
         ]
     }
+
+    private searchTab:Tab = { title: "Search", content: (cls:string) => <RadioSearch className={cls} search={currentSearch} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> }
 
     changeTab(tab:Tab, userSelect=true)  {
         this.setState({
@@ -62,21 +66,73 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         this.setState({
             selectedStation: station
         })
-        this.changeTab(this.tabs[2], /*userSelect*/false)  
+        // todo: should use rather tab id
+        this.changeTab(this.tabs[1], /*userSelect*/false)  
+    }
+
+    searchTextChanged(e) {
+        const query = e.target.value;
+        currentSearch.scheduleSearch(query)
+    }
+
+    private searchInput = React.createRef<HTMLInputElement>()
+    private focusOnSearch = false
+    selectSearch() {
+        this.changeTab(this.searchTab)
+        this.focusOnSearch = true
+    }
+
+    componentDidUpdate() {
+        if (this.focusOnSearch && this.searchInput.current) {
+            this.searchInput.current.focus()
+            this.focusOnSearch = false
+        }
     }
 
     render() {
         const tabs = this.tabs
         const selectedTabName = this.state.selectedTab
-        const selectedTab = tabs.find(tab => tab.title === selectedTabName)
-        const headerContent = tabs.map(tab => <span className={tab === selectedTab ? "tab selected" : "tab"}
-                                                    key={tab.title} onClick={e=>this.changeTab(tab)} >{tab.title}</span> )
-        const tabElements = tabs.map(tab => tab.content(tab == selectedTab ? "visible" : "hidden"))
+        const selectedTab = tabs.find(tab => tab.title === selectedTabName) || this.searchTab
+        
+        const tabTitles = tabs.map(tab => {
+                    let selection = (selectedTab == tab) ? <span className="selection"></span> : undefined
+                    return <div className="tab flexible vertical"
+                               key={tab.title} onClick={e=>this.changeTab(tab)} >
+                                    <span className="title">{tab.title}</span>
+                                    {selection}
+                           </div> 
+        })
+        const allTabs = [this.searchTab].concat(tabs)
+        const tabContent = allTabs.map(tab => tab.content(tab == selectedTab ? "visible" : "hidden"))
+        const searchSelected = this.searchTab == selectedTab;
         
         return (
-            <div className="radio-App flexible vertical">
-                <div className="tabs">{headerContent}</div>
-                {tabElements}
+            <div className="radio-App">
+                <div id="top" className="flexible vertical radio">
+                    <div className="header flexible horizontal">
+                        <img className="logo" src="/webradio/logo.svg"></img>
+                        <span className={`divider ${searchSelected ? "blinking" : "static"}`}></span>
+                        <span className={`currently-playing ${searchSelected ? "hidden" : "visible"}`}>
+                            {radioPlayer.station?.name}
+                        </span>
+                        <input className={`search flex1 ${searchSelected ? "visible" : "hidden"}`} 
+                            ref={this.searchInput}
+                            defaultValue={currentSearch.searchText} 
+                            onInput={ (e) => { this.searchTextChanged(e) } }>
+                        </input>
+                    </div>
+                    <div className="tabs flexible horizontal">
+                        <span className="flex1"></span>
+                        {tabTitles}
+                        <span className="flex1"></span>
+                        <a className="search-tab" onClick={e=> this.selectSearch()}>
+                            <img className="icon search" src="/webradio/icons/search.svg"></img>
+                        </a>
+                    </div>
+                </div>
+                <div id="content" className="radio flexible vertical">
+                    {tabContent}
+                </div>
             </div>
         )
     }

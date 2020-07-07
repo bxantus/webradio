@@ -104,34 +104,59 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
         if (!station) return null
         let status = this.getPlayStatus()
         
-        const buttonTextByStatus = {
-            play: "Stop",
-            stop: "Play",
-            load: "Loading",
-            error: `Error ${this.state.detail ?? ""}`
-        }
-        let playButtonText = buttonTextByStatus[status] ?? "Error"
-        let detailText:JSX.Element | undefined
-        const detail = this.getPlayDetail()
-        if (detail) {
-            detailText = <span>{detail}</span>
+        const iconsForStatus = {
+            play: "stop.svg",
+            stop: "play.svg",
+            load: "loading.svg",
         }
 
-        return <div className={this.props.className}>
-                    <h2>{station.name}</h2>
-                    <p>in: {station.country}</p>
-                    <p>tags: {station.tags}</p>
-                    <p><span className="bold codec">{station.codec}</span>{station.bitrate} kbps</p>
-                    <div>
-                        <button onClick={e => this.togglePlayback()} >{playButtonText}</button> {/* toggle pause */}
-                        {detailText}
+        const buttonIcon =  status != "error" ? `/webradio/icons/${iconsForStatus[status]}` : "";  
+        const detail = this.getPlayDetail()
+        
+
+        const isFavorite = favorites.isFavorite(station)
+        const favoriteHeader = isFavorite
+                                    ? (<span>
+                                          <img className="small-ico like" src="/webradio/icons/like.svg"></img>
+                                          Favorite
+                                       </span>
+                                      )
+                                    : undefined;
+
+        return <div className={this.props.className + " flexible vertical player"}>
+                    <div className="player-header flexible horizontal">
+                        <span>{station.country}</span>
+                        <span>
+                            <img className="small-ico" src="/webradio/icons/votes.svg"></img>
+                            {station.votes}
+                        </span>
+                        {favoriteHeader}
                     </div>
-                    <div>
-                        <button onClick={()=> this.toggleFavorite()} >{favorites.isFavorite(station) ? "Remove from favorites" : "Add to favorites"}</button>
-                        <button onClick={()=> this.vote() }disabled={this.state.voting} >{this.state.voting ? "Voting..." : "Vote!"}</button>
-                        <span>{station.votes} votes</span>
+                    <h2 className="title">{station.name}</h2>
+                    <p className="tags">{station.tags}</p>
+                    <button className="favorite-toggle" onClick={()=> this.toggleFavorite()} >
+                        <img className="small-ico like" src={isFavorite ? "/webradio/icons/unlike.svg" : "/webradio/icons/like.svg"}></img>
+                        <span className="text">{isFavorite ? "Remove Favorite" : "Add as Favorite"}</span>
+                    </button>
+                    <div className="play-area">
+                        <button className="play" onClick={e => this.togglePlayback()} >
+                            <img className={`play-ico ${status}`} src={buttonIcon}></img>
+                        </button> 
+                        {
+                            // todo: add overlay for error messages
+                        }
                     </div>
-                    <Slider model={this.volume} ></Slider>
+                    <div className="flexible horizontal play-footer">
+                        <span className="flex1">{station.codec} - {station.bitrate} kbps</span>
+                        <button className="vote" onClick={()=> this.vote() }disabled={this.state.voting} >
+                            <img className="small-ico" src="/webradio/icons/votes.svg"></img>
+                            Vote
+                        </button> 
+                    </div>
+                    
+                    <Slider model={this.volume} >
+                        <img className="volume" src="/webradio/icons/volume.svg" draggable="false"></img>
+                    </Slider>
                </div>
     }
 }
