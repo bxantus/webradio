@@ -7,6 +7,11 @@ export interface Subscriber<T> {
 }
 
 export class SubscriptionRepository {
+    // todo: add a generic getter function for the given properties, using T type
+    //       this will ensure users with correct types, and they don't have to type strings
+    // ex.: getSubscription<MyuSuperType>("alma")
+    //      user codes could write: {  get onAlma() { return  this.subs.getSubscription<AlmaType>() } }
+
     add(name:string, changeFunc:(newVal:any) => void):Subscription {
         let subsForName = this.subs.get(name) || []
         if (subsForName.length == 0) {

@@ -36,6 +36,9 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         favorites.onUpdated(() => {
             this.setState({}) // update
         })
+        radioPlayer.subscribe("station", (station:Station) => {
+            this.setState({}) // update display of currently playing station
+        })
         const lastPlayed = await getLastPlayedStation()
         if (lastPlayed) {
             radioPlayer.setStation(lastPlayed)

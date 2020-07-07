@@ -1,6 +1,7 @@
 import { Howl } from "howler"
 import { Station, getStreamUrl } from "./radioApi"
 import { saveLastPlayedStation } from "./lastPlayed"
+import { SubscriptionRepository } from "../models/base"
 
 export type StatusCallback = (status:string, detail?:string)=>any
 
@@ -14,7 +15,8 @@ export class LoadError extends Error{
 export default class RadioPlayer {
     player:Howl|undefined
     station:Station|undefined
-    private statusEmitter:StatusCallback[] = []
+    private statusEmitter:StatusCallback[] = [] // todo: replace usage with subs repo
+    private subs = new SubscriptionRepository()
     private loading:Promise<void>|undefined
 
     async setStation(station:Station) {
@@ -29,6 +31,7 @@ export default class RadioPlayer {
         //       status change also should be fired through subs repo
         this.fireStatusChange("load", "station")
         this.station = station
+        this.subs.notifyFor("station", station)
         
         saveLastPlayedStation(station)
         // will save loading promise, as users may use play while station url is loading
@@ -118,5 +121,9 @@ export default class RadioPlayer {
         const idx = this.statusEmitter.findIndex(val => cb == val)
         if (idx >= 0)
             this.statusEmitter.splice(idx, 1)
+    }
+
+    subscribe(prop: "station", changeFn:(newVal:any) => void) {
+        return this.subs.add(prop, changeFn)
     }
 }
