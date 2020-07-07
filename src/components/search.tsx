@@ -21,7 +21,6 @@ export default class Search extends React.Component<SearchProps, SearchState> {
             results: undefined, // todo: get current results from SearchModel
             searching: false
         }
-        this.searchList = React.createRef<HTMLDivElement>()
     }
 
     componentWillMount() {
@@ -33,11 +32,10 @@ export default class Search extends React.Component<SearchProps, SearchState> {
             this.setState({results: res})
         })
         search.subscribe("query", ()=> {
-            if (this.searchList.current) this.searchList.current.scrollTop = 0
+            if (document.scrollingElement)
+                document.scrollingElement.scrollTop = 0
         })
     }
-
-    private searchList:React.RefObject<HTMLDivElement>
 
     render() {
         const results = this.state.results
@@ -47,7 +45,7 @@ export default class Search extends React.Component<SearchProps, SearchState> {
         return (
             <div className={"search flexible vertical " + (this.props.className ?? "")}>
                 
-                <div ref={this.searchList} className="results">
+                <div className="results">
                     <StationList stations={results} onStationSelected={this.props?.onStationSelected}></StationList>
                 </div>
                 

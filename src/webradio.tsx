@@ -9,24 +9,26 @@ import { getLastPlayedStation } from './functions/lastPlayed';
 import SearchModel from './functions/searchModel'
 
 interface RadioState {
-    selectedTab:string
+    selectedTab:Tab
     selectedStation?:Station
 }
 
 interface Tab {
     title: string
     content: (cls:string) => JSX.Element
+    scrollOffset?:number
 }
 
 let currentSearch= new SearchModel
 
 export default class WebradioApp extends React.Component<{}, RadioState> {
-    state:RadioState = {
-        selectedTab: "Search",
-    }
+    state:RadioState 
 
     constructor(props) {
         super(props);
+        this.state = {
+            selectedTab: this.searchTab, // todo: by default we could start with the about (help) tab
+        }
         favorites.load();
     }
 
@@ -41,19 +43,24 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         }
     }
 
-    get tabs() {
-        return [
-            { title: "Favorites", content: (cls:string) => <div className={cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
-            { title: "Playing", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
-            { title: "About", content: (cls:string) => <About className={cls} ></About>},
-        ]
-    }
+    tabs = [
+        { title: "Favorites", content: (cls:string) => <div className={cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
+        { title: "Playing", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
+        { title: "About", content: (cls:string) => <About className={cls} ></About>},
+    ]
+    
 
-    private searchTab:Tab = { title: "Search", content: (cls:string) => <RadioSearch className={cls} search={currentSearch} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch> }
+    private searchTab:Tab = { 
+                              title: "Search", 
+                              content: (cls:string) => <RadioSearch className={cls} search={currentSearch} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch>,
+                              scrollOffset: 0
+                            }
+
 
     changeTab(tab:Tab, userSelect=true)  {
+        this.state.selectedTab.scrollOffset = document.scrollingElement?.scrollTop ?? 0 // save scroll offset
         this.setState({
-            selectedTab: tab.title
+            selectedTab: tab
         })
         if (userSelect) {
             this.setState({
@@ -87,12 +94,16 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
             this.searchInput.current.focus()
             this.focusOnSearch = false
         }
+        if (document.scrollingElement) {
+            if (this.state.selectedTab == this.searchTab) {
+                document.scrollingElement.scrollTop = this.searchTab.scrollOffset ?? 0 // preserve search scroll
+            } else document.scrollingElement.scrollTop = 0 // on other views reset scroll
+        }
     }
 
     render() {
         const tabs = this.tabs
-        const selectedTabName = this.state.selectedTab
-        const selectedTab = tabs.find(tab => tab.title === selectedTabName) || this.searchTab
+        const selectedTab = this.state.selectedTab
         
         const tabTitles = tabs.map(tab => {
                     let selection = (selectedTab == tab) ? <span className="selection"></span> : undefined
