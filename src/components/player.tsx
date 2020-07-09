@@ -16,12 +16,14 @@ interface PlayerState {
     status: string
     detail?: string 
     voting: boolean
+    displayError:boolean // when set, error info box should be displayed, instead of play control button
 }
 
 export default class Player extends React.Component<PlayerProps, PlayerState> {
     state:PlayerState = {
         status : "stop",
-        voting: false
+        voting: false,
+        displayError: false
     }
 
     private statusChangeId:StatusCallback|undefined
@@ -31,7 +33,8 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
             if (radioPlayer.station && this.props.station?.id == radioPlayer.station.id) // only change state, if we display details for the station playing
                 this.setState({
                     status,
-                    detail
+                    detail,
+                    displayError: status == "error"
                 })
         });
 
@@ -48,7 +51,9 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
         if (!this.props.station)
             return
         const stat = this.getPlayStatus()
-        if (stat != "play") {
+        if (stat == "stop" || stat == "error") {
+            if (stat == "error")
+                radioPlayer.stop() // stop it first
             try {
                 this.setState({status:"load", detail: undefined})
                 if (radioPlayer.station?.id != this.props.station.id)
@@ -108,11 +113,11 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
             play: "stop.svg",
             stop: "play.svg",
             load: "loading.svg",
+            error: "play.svg"
         }
 
-        const buttonIcon =  status != "error" ? `/webradio/icons/${iconsForStatus[status]}` : "";  
+        const buttonIcon =  `/webradio/icons/${iconsForStatus[status]}`;  
         const detail = this.getPlayDetail()
-        
 
         const isFavorite = favorites.isFavorite(station)
         const favoriteHeader = isFavorite
@@ -122,6 +127,15 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                                        </span>
                                       )
                                     : undefined;
+        const playButton = <button className="play" onClick={e => this.togglePlayback()} >
+                              <img className={`play-ico ${status}`} src={buttonIcon}></img>
+                           </button>
+        
+        const errorBox = <div className="error-popup flexible horizontal" onClick={()=> this.setState({displayError: false})} >
+                              <img src="/webradio/icons/info.svg"></img>
+                              <span className="flex1">{detail}</span>
+                              <img src="/webradio/icons/close.svg"></img>
+                         </div>
 
         return <div className={this.props.className + " flexible vertical player"}>
                     <div className="player-header flexible horizontal">
@@ -138,13 +152,8 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                         <img className="small-ico like" src={isFavorite ? "/webradio/icons/unlike.svg" : "/webradio/icons/like.svg"}></img>
                         <span className="text">{isFavorite ? "Remove Favorite" : "Add as Favorite"}</span>
                     </button>
-                    <div className="play-area">
-                        <button className="play" onClick={e => this.togglePlayback()} >
-                            <img className={`play-ico ${status}`} src={buttonIcon}></img>
-                        </button> 
-                        {
-                            // todo: add overlay for error messages
-                        }
+                    <div className={`play-area  ${this.state.displayError ? "error" : ""}`}>
+                        {this.state.displayError ? errorBox : playButton}
                     </div>
                     <div className="flexible horizontal play-footer">
                         <span className="flex1">{station.codec} - {station.bitrate} kbps</span>

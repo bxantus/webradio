@@ -311,6 +311,12 @@ button > .text {
 
 div.play-area {
   align-self: center;
+  min-height: 80px;
+  margin-bottom: 20px;
+}
+
+div.play-area.error {
+  align-self: stretch;
 }
 
 img.play-ico {
@@ -327,7 +333,28 @@ button.play {
   border: none;
   box-shadow: 6.561px 8px 0px #000;
   margin-top: 0;
-  margin-bottom: 40px;
+}
+
+.error-popup {
+  background-color: black;
+  padding: 13px 14px;
+  font-family: var(--secondary-font);
+  font-weight: 300;
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  height: 80px;
+  box-sizing: border-box;
+}
+
+.error-popup > img {
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+.error-popup > span {
+  margin: 0 12px;
+  white-space: pre-wrap;
 }
 
 .play-footer {

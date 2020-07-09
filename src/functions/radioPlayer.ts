@@ -46,7 +46,7 @@ export default class RadioPlayer {
         this.loading = undefined
         if (!url) {
             this.fireStatusChange("error", "cannot resolve station url")
-            throw new LoadError("cannot resolve station url")
+            throw new LoadError("Cannot resolve station url")
         } 
         if (this.station?.id == station.id) { // haven't changed stations meanwhile
             if (this.player) {
@@ -62,14 +62,22 @@ export default class RadioPlayer {
 
             // NOTE: howl will fire load errors for radio streams, without extension, if you call the `load()` method
             //       this is probably a bug? (as play will report no errors)
-            this.player.on('loaderror', (_, error)=> this.fireStatusChange("error", "loading the stream failed: " + error))
-            this.player.on('playerror', (_, error)=> this.fireStatusChange("error", "playback error: " + error))
+            const formatError = (error) => {
+                if (typeof error == "number")
+                    return `Error code: ${error}`
+                else return `Details: ${error}`
+            }
+            this.player.on('loaderror', (_, error)=> this.fireStatusChange("error", "Loading the stream failed!\n" + formatError(error)))
+            this.player.on('playerror', (_, error)=> this.fireStatusChange("error", "Playback error!\n" + formatError(error)))
         } else {
-            throw new LoadError("changed stations while loading")
+            throw new LoadError("Changed stations while loading")
         }
     }
 
     async play() {
+        if (!this.player && this.station) {
+            await this.loadPlayer(this.station)
+        }
         try {
             if (this.loading)
                 await this.loading
@@ -92,8 +100,11 @@ export default class RadioPlayer {
 
     stop() {
         if (this.player) {
+            this.player.off() // remove old events, and stop
             this.player.stop()
             this.player.unload() // preserve battery
+            this.fireStatusChange("stop") // sometimes howl doesn't notify :( about stop
+            this.player = undefined
         }
     }
 
