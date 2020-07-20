@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f64873d19cf0c4a0d54af76d504dde84",
+    "revision": "d9ce6042d1c1a7572156075ef8a20d86",
     "url": "/webradio/index.html"
   },
   {
-    "revision": "e2e58e4150a1fbbbc53f",
-    "url": "/webradio/static/css/main.20cd4751.chunk.css"
+    "revision": "dc80fbff042669e92b70",
+    "url": "/webradio/static/css/main.aeff1688.chunk.css"
   },
   {
     "revision": "53885786f66cacb2fdd6",
@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/webradio/static/js/2.510e5001.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e2e58e4150a1fbbbc53f",
+    "revision": "dc80fbff042669e92b70",
     "url": "/webradio/static/js/main.406d0ea0.chunk.js"
   },
   {
