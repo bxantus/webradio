@@ -26,10 +26,11 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
 
     constructor(props) {
         super(props);
-        this.state = {
-            selectedTab: this.searchTab, // todo: by default we could start with the about (help) tab
-        }
         favorites.load();
+
+        this.state = {
+            selectedTab: this.aboutTab, 
+        }
     }
 
     async componentDidMount() {
@@ -46,10 +47,14 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         }
     }
 
+    private favoritesTab:Tab = { title: "Favorites", content: (cls:string) => <div className={cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> }
+    private playingTab:Tab = { title: "Playing", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> }
+    private aboutTab:Tab = { title: "About", content: (cls:string) => <About className={cls} ></About>}
+
     tabs = [
-        { title: "Favorites", content: (cls:string) => <div className={cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> },
-        { title: "Playing", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> },
-        { title: "About", content: (cls:string) => <About className={cls} ></About>},
+        this.favoritesTab,
+        this.playingTab,
+        this.aboutTab,
     ]
     
 
@@ -61,6 +66,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
 
 
     changeTab(tab:Tab, userSelect=true)  {
+        this.tabChanged = this.state.selectedTab == tab
         this.state.selectedTab.scrollOffset = document.scrollingElement?.scrollTop ?? 0 // save scroll offset
         this.setState({
             selectedTab: tab
@@ -76,8 +82,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         this.setState({
             selectedStation: station
         })
-        // todo: should use rather tab id
-        this.changeTab(this.tabs[1], /*userSelect*/false)  
+        this.changeTab(this.playingTab, /*userSelect*/false)  
     }
 
     searchTextChanged(e) {
@@ -87,6 +92,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
 
     private searchInput = React.createRef<HTMLInputElement>()
     private focusOnSearch = false
+    private tabChanged = false
     selectSearch() {
         this.changeTab(this.searchTab)
         this.focusOnSearch = true
@@ -100,8 +106,11 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         if (document.scrollingElement) {
             if (this.state.selectedTab == this.searchTab) {
                 document.scrollingElement.scrollTop = this.searchTab.scrollOffset ?? 0 // preserve search scroll
-            } else document.scrollingElement.scrollTop = 0 // on other views reset scroll
+            } else if (this.tabChanged) {
+                document.scrollingElement.scrollTop = 0 // on other views reset scroll
+            }
         }
+        this.tabChanged = false
     }
 
     render() {
