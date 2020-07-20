@@ -45,6 +45,18 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
             radioPlayer.setStation(lastPlayed)
             this.stationSelected(lastPlayed) // switch to play tab
         }
+
+        // check scroll state when on search screen, and load more results if necessary
+        if (document.scrollingElement) {
+            const scrollingElement = document.scrollingElement as HTMLElement
+            window.onscroll = (e) => {
+                if (scrollingElement.scrollTop + 80 > scrollingElement.scrollHeight - scrollingElement.clientHeight) { // 80px is about one items height
+                    if (this.state.selectedTab == this.searchTab && currentSearch.hasMoreResults && !currentSearch.searching) {
+                        currentSearch.loadMoreResults()
+                    }
+                }
+            }
+        }
     }
 
     private favoritesTab:Tab = { title: "Favorites", content: (cls:string) => <div className={cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> }
@@ -60,7 +72,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
 
     private searchTab:Tab = { 
                               title: "Search", 
-                              content: (cls:string) => <RadioSearch className={cls} search={currentSearch} onStationSelected={station=> this.stationSelected(station)}>Search content</RadioSearch>,
+                              content: (cls:string) => <RadioSearch className={cls} search={currentSearch} onStationSelected={station=> this.stationSelected(station)} key="search">Search content</RadioSearch>,
                               scrollOffset: 0
                             }
 

@@ -6,7 +6,16 @@ export default class Search  {
     private subs = new SubscriptionRepository()
     private searchTimer
     private currentSearch:RadioSearch|undefined
+    private _searching = false
 
+    get searching() { return this._searching }
+    private setSearching(searching:boolean) {
+        if (this._searching != searching) {
+            this.subs.notifyFor("searching", searching)
+            this._searching = searching
+        }
+    }
+    
     get searchText() {
         return this.currentSearch ? this.currentSearch.query.name : ""
     }
@@ -16,19 +25,21 @@ export default class Search  {
         this.searchTimer = setTimeout(async () => {
             let search = new RadioSearch({name: query})
             this.currentSearch = search
-            this.subs.notifyFor("searching", true)
+            this.setSearching(true)
             await search.search()
             this.subs.notifyFor("query", undefined) // search query changed
-            this.subs.notifyFor("searching", false)
+            this.setSearching(false)
             this.subs.notifyFor("results", search.results)
         }, timeout)
     }
 
+    get hasMoreResults() { return this.currentSearch ? this.currentSearch.hasMoreResults : false }
+
     async loadMoreResults() {
         if (this.currentSearch && this.currentSearch.hasMoreResults) {
-            this.subs.notifyFor("searching", true)
+            this.setSearching(true)
             await this.currentSearch.search()
-            this.subs.notifyFor("searching", false)
+            this.setSearching(false)
             this.subs.notifyFor("results", this.currentSearch.results)
         }
     }
