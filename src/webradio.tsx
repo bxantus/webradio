@@ -79,7 +79,7 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
 
 
     changeTab(tab:Tab, userSelect=true)  {
-        this.tabChanged = this.state.selectedTab == tab
+        this.tabChanged = this.state.selectedTab != tab
         this.state.selectedTab.scrollOffset = document.scrollingElement?.scrollTop ?? 0 // save scroll offset
         this.setState({
             selectedTab: tab
