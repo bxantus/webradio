@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a4c092c58047d34e58659d6a832dd90f",
+    "revision": "e6140627a00fd7f00a152e16110b6950",
     "url": "/webradio/index.html"
   },
   {
