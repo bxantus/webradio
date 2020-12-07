@@ -182,7 +182,8 @@ input.search {
   font-family: var(--secondary-font);
   border: none;
   min-width: 20px;
-  caret-color: transparent; /*todo: great idea?*/
+  /*Use the following rule, when you want to hide the caret*/
+  /*caret-color: transparent; /*todo: great idea?*/
 }
 
 .station {
