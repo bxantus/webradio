@@ -13,6 +13,7 @@ function preloadSvg(url:string) {
 
 preloadSvg("/webradio/icons/loading.svg");
 preloadSvg("/webradio/icons/stop.svg");
+preloadSvg("/webradio/icons/info.svg");
 
 ReactDOM.render(
   <React.StrictMode>
