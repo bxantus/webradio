@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/webradio/precache-manifest.f604bba98d7e17ab121c8743101b5ed6.js"
+  "/webradio/precache-manifest.1afad7c492d574b512f698f08b52a01f.js"
 );
 
 self.addEventListener('message', (event) => {
