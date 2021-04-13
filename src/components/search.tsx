@@ -46,7 +46,10 @@ export default class Search extends React.Component<SearchProps, SearchState> {
             <div className={"search flexible vertical " + (this.props.className ?? "")}>
                 
                 <div className="results">
-                    <StationList stations={results} onStationSelected={this.props?.onStationSelected}></StationList>
+                    <StationList stations={results} 
+                                 onStationSelected={this.props?.onStationSelected} 
+                                 emptyText={this.state.searching ? "" : "No results"}>
+                    </StationList>
                 </div>
                 
             </div>

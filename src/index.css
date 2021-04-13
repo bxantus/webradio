@@ -257,6 +257,13 @@ img.small-ico.like {
   border-top: 0;
   margin-top: 13px;
 }
+
+h2.empty {
+  margin-top: 195px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
 /*player screen*/
 .player-header > span {
   margin-right: 15px;

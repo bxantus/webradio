@@ -4,6 +4,7 @@ import { Station } from "../functions/radioApi";
 interface StationsProps {
     stations?: Station[]
     onStationSelected?: (station:Station) => any
+    emptyText?:string /// text to display when no stations are added
 }
 
 // tags are retrieved in a format split by commas, but no preceding space
@@ -18,7 +19,7 @@ function formatCountry(country:string) {
 export default class StationList extends React.Component<StationsProps, {}> {
     render() {
         const stations = this.props.stations;
-        if (stations) {
+        if (stations && stations.length > 0) {
             let results = stations.map(station => 
                 <div className="clickable station" onClick={ () => this.props?.onStationSelected?.(station) } key={station.id}>
                     <h3>{station.name}</h3>
@@ -32,6 +33,9 @@ export default class StationList extends React.Component<StationsProps, {}> {
                     <hr></hr>
                 </div> )
             return results
-        } else return null
+        } else //<p className="empty">
+        return  <h2 className="empty">
+            {this.props.emptyText} 
+        </h2>
     }
 }

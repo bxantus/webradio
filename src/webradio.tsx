@@ -60,7 +60,12 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
         }
     }
 
-    private favoritesTab:Tab = { title: "Favorites", content: (cls:string) => <div className={cls}><StationList stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} ></StationList></div> }
+    private favoritesTab:Tab = { title: "Favorites", content: (cls:string) => <div className={cls}><StationList 
+                                                                                                     stations={favorites.list} onStationSelected={station=> this.stationSelected(station)} 
+                                                                                                     emptyText="No favorites yet"
+                                                                                                    >
+
+                                                                                                   </StationList></div> }
     private playingTab:Tab = { title: "Playing", content: (cls:string) => <RadioPlayerUI className={cls} station={this.state.selectedStation}></RadioPlayerUI> }
     private aboutTab:Tab = { title: "About", content: (cls:string) => <About className={cls} ></About>}
 
