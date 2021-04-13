@@ -130,6 +130,8 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
         const playButton = <button className="play" onClick={e => this.togglePlayback()} >
                               <img className={`play-ico ${status}`} src={buttonIcon}></img>
                            </button>
+
+        const displayError = this.state.displayError && status == "error"                                        
         
         const errorBox = <div className="error-popup flexible horizontal" onClick={()=> this.setState({displayError: false})} >
                               <img src="/webradio/icons/info.svg"></img>
@@ -152,8 +154,8 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
                         <img className="small-ico like" src={isFavorite ? "/webradio/icons/unlike.svg" : "/webradio/icons/like.svg"}></img>
                         <span className="text">{isFavorite ? "Remove Favorite" : "Add as Favorite"}</span>
                     </button>
-                    <div className={`play-area  ${this.state.displayError ? "error" : ""}`}>
-                        {this.state.displayError ? errorBox : playButton}
+                    <div className={`play-area  ${displayError ? "error" : ""}`}>
+                        {displayError ? errorBox : playButton}
                     </div>
                     <div className="flexible horizontal play-footer">
                         <span className="flex1">{station.codec} - {station.bitrate} kbps</span>
