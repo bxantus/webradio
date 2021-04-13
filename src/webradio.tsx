@@ -109,6 +109,8 @@ export default class WebradioApp extends React.Component<{}, RadioState> {
     selectSearch() {
         this.changeTab(this.searchTab)
         this.focusOnSearch = true
+        if (!currentSearch.activated)
+            currentSearch.scheduleSearch("", 0) // fill search results with top stations, if not activated previously 
     }
 
     componentDidUpdate() {

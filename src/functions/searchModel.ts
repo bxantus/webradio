@@ -8,6 +8,9 @@ export default class Search  {
     private currentSearch:RadioSearch|undefined
     private _searching = false
 
+    /** @returns true if at least one search qyery was performed */
+    get activated() { return this.currentSearch != undefined }
+
     get searching() { return this._searching }
     private setSearching(searching:boolean) {
         if (this._searching != searching) {
