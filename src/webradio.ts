@@ -8,7 +8,7 @@ import { favorites } from './functions/favorites.ts';
 import { getLastPlayedStation } from './functions/lastPlayed.ts';
 import SearchModel from './functions/searchModel.ts'
 import { el, div, span, img } from "xdom.ts"
-import { binding } from "binding.ts"
+import { binding, SubscriptionRepository, triggered } from "binding.ts"
 
 interface Tab {
     title: string
@@ -22,6 +22,8 @@ export default class WebradioApp {
     selectedTab:Tab
     selectedStation?:Station
     element:HTMLElement
+    subRepo = new SubscriptionRepository<"selectedTab">()
+    get $changes() { return this.subRepo.changes }
 
     constructor() {
         favorites.load();
@@ -82,12 +84,15 @@ export default class WebradioApp {
 
 
     changeTab(tab:Tab, userSelect=true)  {
-        this.tabChanged = this.selectedTab != tab
+        const changed = this.selectedTab != tab 
         this.selectedTab.scrollOffset = document.scrollingElement?.scrollTop ?? 0 // save scroll offset
         this.selectedTab = tab
         if (userSelect) {
             this.selectedStation = radioPlayer.station
         }
+        if (changed)
+            this.subRepo.notifyFor("selectedTab")
+        this.tabChanged = changed
     }
 
     stationSelected(station:Station) {
@@ -95,8 +100,8 @@ export default class WebradioApp {
         this.changeTab(this.playingTab, /*userSelect*/false)  
     }
 
-    searchTextChanged(e) {
-        const query = e.target.value;
+    searchTextChanged(e:Event) {
+        const query = (e.target as HTMLInputElement).value;
         currentSearch.scheduleSearch(query)
     }
 
@@ -129,7 +134,7 @@ export default class WebradioApp {
 
     private render() {
         const tabs = this.tabs
-        const tabTitles = tabs.map(tab => div({class:"tab flexible vertical", onClick:e=>this.changeTab(tab)},
+        const tabTitles = tabs.map(tab => div({class:"tab flexible vertical", onClick:()=>this.changeTab(tab)},
                                             span({class:"title", innerText: tab.title})
         ))
         // const allTabs = [this.searchTab].concat(tabs)
@@ -141,16 +146,17 @@ export default class WebradioApp {
                     img({class:"logo", src:"/logo.svg"}),
                     span({class:`divider static`}),
                     span({
-                        class:binding(()=>`currently-playing ${this.searchSelected ? "hidden" : "visible"}`, /* todo:reeval on tab change */),
+                        class:binding(()=>`currently-playing ${this.searchSelected ? "hidden" : "visible"}`, this.$changes.selectedTab),
                         innerText: binding(()=>radioPlayer.station?.name, /* reeval on station change */)
                     }),
-                    this.searchInput = el("input", {class:`search flex1 ${this.searchSelected ? "visible" : "hidden"}`}) as HTMLInputElement
+                    this.searchInput = el("input", {
+                        class: binding(()=>`search flex1 ${this.searchSelected ? "visible" : "hidden"}`, this.$changes.selectedTab)
+                    }
+                    ) as HTMLInputElement
 
-                    // todo: onInput, placeholder etc.
+                    // todo: onInput
         //                 <input className={`search flex1 ${searchSelected ? "visible" : "hidden"}`} 
-        //                     ref={this.searchInput}
         //                     defaultValue={currentSearch.searchText} 
-        //                     placeholder="Search"
         //                     onInput={ (e) => { this.searchTextChanged(e) } }>
         //                 </input>
 
@@ -159,7 +165,7 @@ export default class WebradioApp {
                     span({class:"flex1"}),
                     ...tabTitles,
                     span({class:"flex1"}),
-                    el("a", {class:"search-tab"},
+                    el("a", {class:"search-tab", onClick:()=> this.selectSearch()},
                         img({class:"icon search", src:"/icons/search.svg"})
                     )
                 ),
@@ -169,9 +175,17 @@ export default class WebradioApp {
             )
         )
 
+        this.searchInput.placeholder = "Search"
+        this.searchInput.oninput = e => this.searchTextChanged(e)
+
         const selection = span({class:"selection"})
-        // todo: on tab change reparent selection span
-        // this.selectedTab.content.insertAdjacenTElement()
+        this.$changes.selectedTab.subscribe(triggered( ()=> {
+            const idx = this.tabs.indexOf(this.selectedTab)
+            // on tab change reparent selection span
+            selection.remove()
+            // idx is -1 in case of search tab, we won't add selection
+            tabTitles[idx]?.append(selection)
+        }))
         return rootElement
     }
 }
