@@ -1,12 +1,11 @@
-import React from 'react';
-import RadioSearch from './components/search'
-import RadioPlayerUI, { radioPlayer } from './components/player'
-import { Station } from './functions/radioApi';
-import About from './components/about';
-import StationList from './components/stationList';
-import { favorites } from './functions/favorites';
-import { getLastPlayedStation } from './functions/lastPlayed';
-import SearchModel from './functions/searchModel'
+import RadioSearch from './components/search.tsx'
+import RadioPlayerUI, { radioPlayer } from './components/player.tsx'
+import { Station } from './functions/radioApi.ts';
+import About from './components/about.tsx';
+import StationList from './components/stationList.tsx';
+import { favorites } from './functions/favorites.ts';
+import { getLastPlayedStation } from './functions/lastPlayed.ts';
+import SearchModel from './functions/searchModel.ts'
 
 interface RadioState {
     selectedTab:Tab

@@ -1,7 +1,8 @@
-import { Howl } from "howler"
-import { Station, getStreamUrl } from "./radioApi"
-import { saveLastPlayedStation } from "./lastPlayed"
-import { SubscriptionRepository } from "../models/base"
+/// types: ...
+import { Howl } from "../../node_modules/howler/dist/howler.min.js"
+import { Station, getStreamUrl } from "./radioApi.ts"
+import { saveLastPlayedStation } from "./lastPlayed.ts"
+import { SubscriptionRepository } from "../models/base.ts"
 
 export type StatusCallback = (status:string, detail?:string)=>any
 

@@ -1,4 +1,4 @@
-import { Station, needsUpgrade, upgradeStation } from "./radioApi";
+import { Station, needsUpgrade, upgradeStation } from "./radioApi.ts";
 
 export async function getLastPlayedStation():Promise<Station | undefined> {
     const stat = localStorage.getItem("lastPlayed")

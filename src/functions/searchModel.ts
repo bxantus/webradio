@@ -1,5 +1,5 @@
-import { RadioSearch } from "./radioApi";
-import { SubscriptionRepository, Subscription } from "../models/base";
+import { RadioSearch } from "./radioApi.ts";
+import { SubscriptionRepository, Subscription } from "../models/base.ts";
 
 
 export default class Search  {

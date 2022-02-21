@@ -1,8 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+// import './index.css';
 
-import WebRadio from './webradio'
+// import WebRadio from './webradio.tsx'
 
 let preloadedImages:HTMLImageElement[] = []
 function preloadSvg(url:string) {
@@ -15,10 +13,8 @@ preloadSvg("/webradio/icons/loading.svg");
 preloadSvg("/webradio/icons/stop.svg");
 preloadSvg("/webradio/icons/info.svg");
 
-ReactDOM.render(
-  <React.StrictMode>
-    <WebRadio>my text</WebRadio>
-  </React.StrictMode>,
+window.onload = () => {
   document.getElementById('root')
-);
+}
+
 
