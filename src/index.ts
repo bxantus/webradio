@@ -1,6 +1,7 @@
+// todo: move css to build or public
 // import './index.css';
 
-// import WebRadio from './webradio.tsx'
+import WebRadio from './webradio.ts'
 
 let preloadedImages:HTMLImageElement[] = []
 function preloadSvg(url:string) {
@@ -15,6 +16,7 @@ preloadSvg("/webradio/icons/info.svg");
 
 window.onload = () => {
   document.getElementById('root')
+  new WebRadio
 }
 
 
