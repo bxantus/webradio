@@ -159,7 +159,7 @@ export default class WebradioApp {
                     span({class:"flex1"}),
                     ...tabTitles,
                     span({class:"flex1"}),
-                    el("a", {},
+                    el("a", {class:"search-tab"},
                         img({class:"icon search", src:"/icons/search.svg"})
                     )
                 ),
