@@ -1,0 +1,11 @@
+{
+    "deno.enable": true,
+    "deno.config": "./deno.json",
+    "deno.importMap": "./src/import_map.json",
+    "debug.javascript.unmapMissingSources": true,
+    "deno.lint": false,
+    "deno.unstable": true,
+    "deno.suggest.imports.hosts": {
+        "https://deno.land": true
+    }
+}

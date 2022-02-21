@@ -1,0 +1,33 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        // unfortunately sourcemaps won't be generated with deno bundle, see: https://github.com/denoland/deno/issues/4499
+        // maybe 1.8 release will fix this
+        {
+            "label": "build webradio",
+            "type": "deno",
+
+            "command": "run",
+            "args": [
+                "--unstable",
+                "-A",
+                "scripts/compile.ts",
+                "index.ts",
+                "build"
+              ],
+            "group": "build",
+            "problemMatcher":"$deno",
+        },
+     
+        {
+            // requires deno file_server:
+            // deno install --allow-net --allow-read https://deno.land/std@0.85.0/http/file_server.ts
+            "label": "serve",
+            "type": "shell",
+            "command": "file_server ./out --port 3123",
+            "problemMatcher": []
+        },
+    ]
+}

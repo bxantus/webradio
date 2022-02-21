@@ -5,17 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Draw and show",
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
-            "name": "Launch webradio in firefox",
-            "url": "http://localhost:3000/",
-            "webRoot": "${workspaceFolder}/src",
-            "pathMappings": [
-                { "url":"webpack:///src/*",
-                "path": "${workspaceFolder}/src/*"}
-            ]
-            
-        },
+            "url": "http://localhost:3123/index.html",
+            "pathMappings": [{
+                "url": "http://localhost:3123",
+                "path": "${workspaceFolder}/build"
+            }]
+        }
     ]
 }
