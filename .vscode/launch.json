@@ -5,14 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Draw and show",
+            "name": "Launch Webradio",
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
             "url": "http://localhost:3123/index.html",
             "pathMappings": [{
                 "url": "http://localhost:3123",
-                "path": "${workspaceFolder}/build"
+                "path": "${workspaceFolder}/public"
             }]
         }
     ]

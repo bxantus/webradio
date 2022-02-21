@@ -1,6 +1,6 @@
 {
     "deno.enable": true,
-    "deno.config": "./deno.json",
+    "deno.config": "./src/deno.json",
     "deno.importMap": "./src/import_map.json",
     "debug.javascript.unmapMissingSources": true,
     "deno.lint": false,

@@ -1,7 +1,7 @@
 const srcFile = Deno.args[0]
 const out = Deno.args[1]
 
-const filesToCopy:string[] = [/* "index.html" */]
+const filesToCopy:string[] = ["index.css"]
 for (const f of filesToCopy){
     console.log(`copy src/${f} -> ${out}/${f}`)
     Deno.copyFileSync(`src/${f}`, `${out}/${f}` )

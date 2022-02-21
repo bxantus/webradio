@@ -15,7 +15,7 @@
                 "-A",
                 "scripts/compile.ts",
                 "index.ts",
-                "build"
+                "public"
               ],
             "group": "build",
             "problemMatcher":"$deno",
@@ -26,7 +26,7 @@
             // deno install --allow-net --allow-read https://deno.land/std@0.85.0/http/file_server.ts
             "label": "serve",
             "type": "shell",
-            "command": "file_server ./out --port 3123",
+            "command": "file_server ./public --port 3123",
             "problemMatcher": []
         },
     ]
