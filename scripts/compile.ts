@@ -14,7 +14,7 @@ const { files, diagnostics } = await Deno.emit(`src/${srcFile}`, {
         noImplicitAny: false,
         lib: ["dom", "esnext", "deno.ns"],
     },
-    // importMapPath: "src/import_map.json"
+    importMapPath: "src/import_map.json"
 });
 
 if (diagnostics.length) {
