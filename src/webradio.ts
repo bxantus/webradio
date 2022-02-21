@@ -92,7 +92,6 @@ export default class WebradioApp {
         }
         if (changed)
             this.subRepo.notifyFor("selectedTab")
-        this.tabChanged = changed
     }
 
     stationSelected(station:Station) {
@@ -106,28 +105,10 @@ export default class WebradioApp {
     }
 
     private searchInput:HTMLInputElement|undefined 
-    private focusOnSearch = false
-    private tabChanged = false
     selectSearch() {
         this.changeTab(this.searchTab)
-        this.focusOnSearch = true
         if (!currentSearch.activated)
             currentSearch.scheduleSearch("", 0) // fill search results with top stations, if not activated previously 
-    }
-
-    componentDidUpdate() {
-        if (this.focusOnSearch && this.searchInput) {
-            this.searchInput.focus()
-            this.focusOnSearch = false
-        }
-        if (document.scrollingElement) {
-            if (this.selectedTab == this.searchTab) {
-                document.scrollingElement.scrollTop = this.searchTab.scrollOffset ?? 0 // preserve search scroll
-            } else if (this.tabChanged) {
-                document.scrollingElement.scrollTop = 0 // on other views reset scroll
-            }
-        }
-        this.tabChanged = false
     }
 
     get searchSelected() { return this.searchTab == this.selectedTab }
@@ -153,13 +134,6 @@ export default class WebradioApp {
                         class: binding(()=>`search flex1 ${this.searchSelected ? "visible" : "hidden"}`, this.$changes.selectedTab)
                     }
                     ) as HTMLInputElement
-
-                    // todo: onInput
-        //                 <input className={`search flex1 ${searchSelected ? "visible" : "hidden"}`} 
-        //                     defaultValue={currentSearch.searchText} 
-        //                     onInput={ (e) => { this.searchTextChanged(e) } }>
-        //                 </input>
-
                 ),
                 div({class:"tabs flexible horizontal"},
                     span({class:"flex1"}),
@@ -170,7 +144,7 @@ export default class WebradioApp {
                     )
                 ),
                 div({id:"content", class:"radio flexible vertical"},
-                    // tabs
+                    // todo: tabs
                 )
             )
         )
@@ -185,6 +159,14 @@ export default class WebradioApp {
             selection.remove()
             // idx is -1 in case of search tab, we won't add selection
             tabTitles[idx]?.append(selection)
+            if (this.searchSelected) {
+                this.searchInput?.focus()
+                if (document.scrollingElement)
+                    document.scrollingElement.scrollTop = this.searchTab.scrollOffset ?? 0 // preserve search scroll
+            }
+            else if (document.scrollingElement) {
+                document.scrollingElement.scrollTop = 0 // on other views reset scroll
+            }
         }))
         return rootElement
     }
