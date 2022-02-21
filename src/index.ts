@@ -10,13 +10,15 @@ function preloadSvg(url:string) {
   preloadedImages.push(img)
 }
 
-preloadSvg("/webradio/icons/loading.svg");
-preloadSvg("/webradio/icons/stop.svg");
-preloadSvg("/webradio/icons/info.svg");
+preloadSvg("/icons/loading.svg");
+preloadSvg("/icons/stop.svg");
+preloadSvg("/icons/info.svg");
 
 window.onload = () => {
-  document.getElementById('root')
-  new WebRadio
+  const rootEl = document.getElementById('root')!
+  rootEl.innerHTML = ""
+  const webRadio = new WebRadio
+  rootEl.append(webRadio.element)
 }
 
 

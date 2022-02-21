@@ -10,11 +10,6 @@ import SearchModel from './functions/searchModel.ts'
 import { el, div, span, img } from "xdom.ts"
 import { binding } from "binding.ts"
 
-interface RadioState {
-    selectedTab:Tab
-    selectedStation?:Station
-}
-
 interface Tab {
     title: string
     content: (cls:string) => HTMLElement|undefined
@@ -26,11 +21,13 @@ let currentSearch= new SearchModel
 export default class WebradioApp {
     selectedTab:Tab
     selectedStation?:Station
+    element:HTMLElement
 
     constructor() {
         favorites.load();
 
         this.selectedTab = this.aboutTab
+        this.element = this.render()
     }
 
     async componentDidMount() {
@@ -131,30 +128,24 @@ export default class WebradioApp {
     get searchSelected() { return this.searchTab == this.selectedTab }
 
     private render() {
-        // const tabs = this.tabs
-        // const selectedTab = this.state.selectedTab
-        
-        // const tabTitles = tabs.map(tab => {
-        //             let selection = (selectedTab == tab) ? <span className="selection"></span> : undefined
-        //             return <div className="tab flexible vertical"
-        //                        key={tab.title} onClick={e=>this.changeTab(tab)} >
-        //                             <span className="title">{tab.title}</span>
-        //                             {selection}
-        //                    </div> 
-        // })
+        const tabs = this.tabs
+        const tabTitles = tabs.map(tab => div({class:"tab flexible vertical", onClick:e=>this.changeTab(tab)},
+                                            span({class:"title", innerText: tab.title})
+        ))
         // const allTabs = [this.searchTab].concat(tabs)
         // const tabContent = allTabs.map(tab => tab.content(tab == selectedTab ? "visible" : "hidden"))
 
-        const app = div({class:"radio-App"},
+        const rootElement = div({class:"radio-App"},
             div({id:"top", class:"flexible vertical radio"},
                 div({class:"header flexible horizontal"}, 
-                    img({class:"logo", src:"/webradio/logo.svg"}),
+                    img({class:"logo", src:"/logo.svg"}),
                     span({class:`divider static`}),
                     span({
                         class:binding(()=>`currently-playing ${this.searchSelected ? "hidden" : "visible"}`, /* todo:reeval on tab change */),
                         innerText: binding(()=>radioPlayer.station?.name, /* reeval on station change */)
                     }),
                     this.searchInput = el("input", {class:`search flex1 ${this.searchSelected ? "visible" : "hidden"}`}) as HTMLInputElement
+
                     // todo: onInput, placeholder etc.
         //                 <input className={`search flex1 ${searchSelected ? "visible" : "hidden"}`} 
         //                     ref={this.searchInput}
@@ -166,10 +157,10 @@ export default class WebradioApp {
                 ),
                 div({class:"tabs flexible horizontal"},
                     span({class:"flex1"}),
-                    // tabTitles
+                    ...tabTitles,
                     span({class:"flex1"}),
                     el("a", {},
-                        img({class:"icon search", src:"/webradio/icons/search.svg"})
+                        img({class:"icon search", src:"/icons/search.svg"})
                     )
                 ),
                 div({id:"content", class:"radio flexible vertical"},
@@ -179,7 +170,8 @@ export default class WebradioApp {
         )
 
         const selection = span({class:"selection"})
-        // todo: on selection change reparent selection span
+        // todo: on tab change reparent selection span
         // this.selectedTab.content.insertAdjacenTElement()
+        return rootElement
     }
 }
