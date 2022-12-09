@@ -4,7 +4,7 @@ import { SubscriptionRepository, Subscription } from "../models/base.ts";
 
 export default class Search  {
     private subs = new SubscriptionRepository()
-    private searchTimer
+    private searchTimer?:number
     private currentSearch:RadioSearch|undefined
     private _searching = false
 
@@ -24,7 +24,7 @@ export default class Search  {
     }
 
     async scheduleSearch(query:string, timeout = 400) {
-        this.searchTimer = clearTimeout(this.searchTimer)
+        clearTimeout(this.searchTimer)
         this.searchTimer = setTimeout(async () => {
             let search = new RadioSearch({name: query})
             this.currentSearch = search

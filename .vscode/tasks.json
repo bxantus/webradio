@@ -19,6 +19,19 @@
             "group": "build",
             "problemMatcher":"$deno",
         },
+        {
+            "label": "check webradio",
+            "type": "deno",
+
+            "command": "check",
+            "args": [
+                "--import-map=src/import_map.json",
+                "--config=src/deno.json",
+                "src/index.ts",
+              ],
+            "group": "build",
+            "problemMatcher":"$deno",
+        },
      
         {
             // requires deno file_server:
