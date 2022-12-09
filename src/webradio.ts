@@ -7,8 +7,7 @@ import { Station } from './functions/radioApi.ts';
 import { favorites } from './functions/favorites.ts';
 import { getLastPlayedStation } from './functions/lastPlayed.ts';
 import SearchModel from './functions/searchModel.ts'
-import { el, div, span, img } from "xdom.ts"
-import { binding, SubscriptionRepository, triggered } from "binding.ts"
+import { el, div, span, img, calc } from "xdom/src/xdom.ts"
 
 interface Tab {
     title: string
@@ -22,8 +21,6 @@ export default class WebradioApp {
     selectedTab:Tab
     selectedStation?:Station
     element:HTMLElement
-    subRepo = new SubscriptionRepository<"selectedTab">()
-    get $changes() { return this.subRepo.changes }
 
     constructor() {
         favorites.load();
@@ -90,8 +87,25 @@ export default class WebradioApp {
         if (userSelect) {
             this.selectedStation = radioPlayer.station
         }
-        if (changed)
-            this.subRepo.notifyFor("selectedTab")
+        if (changed) {
+            // todo: handle tab change effects here
+            // do we need this code below? probably yes, but selection should be a member instead and the code below should be extracted
+
+            // const selection = span({class:"selection"})
+            // const idx = this.tabs.indexOf(this.selectedTab)
+            // // on tab change reparent selection span
+            // selection.remove()
+            // // idx is -1 in case of search tab, we won't add selection
+            // tabTitles[idx]?.append(selection)
+            // if (this.searchSelected) {
+            //     this.searchInput?.focus()
+            //     if (document.scrollingElement)
+            //         document.scrollingElement.scrollTop = this.searchTab.scrollOffset ?? 0 // preserve search scroll
+            // }
+            // else if (document.scrollingElement) {
+            //     document.scrollingElement.scrollTop = 0 // on other views reset scroll
+            // }
+        }
     }
 
     stationSelected(station:Station) {
@@ -116,7 +130,7 @@ export default class WebradioApp {
     private render() {
         const tabs = this.tabs
         const tabTitles = tabs.map(tab => div({class:"tab flexible vertical", onClick:()=>this.changeTab(tab)},
-                                            span({class:"title", innerText: tab.title})
+                                            span({class:"title", text: tab.title})
         ))
         // const allTabs = [this.searchTab].concat(tabs)
         // const tabContent = allTabs.map(tab => tab.content(tab == selectedTab ? "visible" : "hidden"))
@@ -127,11 +141,11 @@ export default class WebradioApp {
                     img({class:"logo", src:"/logo.svg"}),
                     span({class:`divider static`}),
                     span({
-                        class:binding(()=>`currently-playing ${this.searchSelected ? "hidden" : "visible"}`, this.$changes.selectedTab),
-                        innerText: binding(()=>radioPlayer.station?.name, /* reeval on station change */)
+                        class:calc(()=>`currently-playing ${this.searchSelected ? "hidden" : "visible"}`),
+                        text: calc(()=>radioPlayer.station?.name, /* reeval on station change */)
                     }),
                     this.searchInput = el("input", {
-                        class: binding(()=>`search flex1 ${this.searchSelected ? "visible" : "hidden"}`, this.$changes.selectedTab)
+                        class: calc(()=>`search flex1 ${this.searchSelected ? "visible" : "hidden"}`)
                     }
                     ) as HTMLInputElement
                 ),
@@ -151,23 +165,7 @@ export default class WebradioApp {
 
         this.searchInput.placeholder = "Search"
         this.searchInput.oninput = e => this.searchTextChanged(e)
-
-        const selection = span({class:"selection"})
-        this.$changes.selectedTab.subscribe(triggered( ()=> {
-            const idx = this.tabs.indexOf(this.selectedTab)
-            // on tab change reparent selection span
-            selection.remove()
-            // idx is -1 in case of search tab, we won't add selection
-            tabTitles[idx]?.append(selection)
-            if (this.searchSelected) {
-                this.searchInput?.focus()
-                if (document.scrollingElement)
-                    document.scrollingElement.scrollTop = this.searchTab.scrollOffset ?? 0 // preserve search scroll
-            }
-            else if (document.scrollingElement) {
-                document.scrollingElement.scrollTop = 0 // on other views reset scroll
-            }
-        }))
+        
         return rootElement
     }
 }
