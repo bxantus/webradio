@@ -11,10 +11,9 @@
 
             "command": "run",
             "args": [
-                "--unstable",
                 "-A",
-                "scripts/compile.ts",
-                "index.ts",
+                "build/compile.ts",
+                "src/index.ts",
                 "public"
               ],
             "group": "build",
