@@ -7,7 +7,7 @@ import { Station } from './functions/radioApi.ts';
 import { favorites } from './functions/favorites.ts';
 import { getLastPlayedStation } from './functions/lastPlayed.ts';
 import SearchModel from './functions/searchModel.ts'
-import { el, div, span, img, calc } from "xdom/src/xdom.ts"
+import { el, div, span, img, calc } from "./xdom/xdom.ts"
 
 interface Tab {
     title: string

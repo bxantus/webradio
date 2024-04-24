@@ -1,0 +1,3 @@
+[submodule "ts_modules/xdom"]
+	path = ts_modules/xdom
+	url = https://github.com/bxantus/xdom.git
