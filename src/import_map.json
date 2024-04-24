@@ -1,5 +1,0 @@
-{
-    "imports": {
-        "xdom/": "https://raw.githubusercontent.com/bxantus/xdom/v1.0.0/"
-    }
-}

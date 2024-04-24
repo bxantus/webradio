@@ -6,32 +6,19 @@
         // unfortunately sourcemaps won't be generated with deno bundle, see: https://github.com/denoland/deno/issues/4499
         // maybe 1.8 release will fix this
         {
-            "label": "build webradio",
-            "type": "deno",
-
-            "command": "run",
-            "args": [
-                "-A",
-                "build/compile.ts",
-                "src/index.ts",
-                "public"
-              ],
-            "group": "build",
-            "problemMatcher":"$deno",
-        },
-        {
-            "label": "check webradio",
-            "type": "deno",
-
-            "command": "check",
-            "args": [
-                "--import-map=src/import_map.json",
-                "--config=src/deno.json",
-                "src/index.ts",
-              ],
-            "group": "build",
-            "problemMatcher":"$deno",
-        },
+			"type": "npm",
+			"script": "watch",
+			"problemMatcher": "$tsc-watch",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "never"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+        
      
         {
             // requires deno file_server:

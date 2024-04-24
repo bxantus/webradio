@@ -1,5 +1,5 @@
 /// types: ...
-import { Howl } from "../../node_modules/howler/dist/howler.min.js"
+import { Howl } from "howler"
 import { Station, getStreamUrl } from "./radioApi.ts"
 import { saveLastPlayedStation } from "./lastPlayed.ts"
 import { SubscriptionRepository } from "../models/base.ts"
@@ -63,7 +63,7 @@ export default class RadioPlayer {
 
             // NOTE: howl will fire load errors for radio streams, without extension, if you call the `load()` method
             //       this is probably a bug? (as play will report no errors)
-            const formatError = (error) => {
+            const formatError = (error:any) => {
                 if (typeof error == "number")
                     return `Error code: ${error}`
                 else return `Details: ${error}`

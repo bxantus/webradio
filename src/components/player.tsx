@@ -107,7 +107,7 @@ export default class Player extends React.Component<PlayerProps, PlayerState> {
     render() {
         const station = this.props.station;
         if (!station) return null
-        let status = this.getPlayStatus()
+        let status = this.getPlayStatus() as "play"|"stop"|"load"|"error"
         
         const iconsForStatus = {
             play: "stop.svg",
