@@ -89,22 +89,16 @@ export default class WebradioApp {
         }
         if (changed) {
             // todo: handle tab change effects here
-            // do we need this code below? probably yes, but selection should be a member instead and the code below should be extracted
 
-            // const selection = span({class:"selection"})
-            // const idx = this.tabs.indexOf(this.selectedTab)
-            // // on tab change reparent selection span
-            // selection.remove()
-            // // idx is -1 in case of search tab, we won't add selection
-            // tabTitles[idx]?.append(selection)
-            // if (this.searchSelected) {
-            //     this.searchInput?.focus()
-            //     if (document.scrollingElement)
-            //         document.scrollingElement.scrollTop = this.searchTab.scrollOffset ?? 0 // preserve search scroll
-            // }
-            // else if (document.scrollingElement) {
-            //     document.scrollingElement.scrollTop = 0 // on other views reset scroll
-            // }
+            if (this.searchSelected) {
+                // NOTE: requesting focus should be done in the next anim frame, as searcjInput won't be visible until that point
+                requestAnimationFrame(()=>this.searchInput?.focus())
+                if (document.scrollingElement)
+                    document.scrollingElement.scrollTop = this.searchTab.scrollOffset ?? 0 // preserve search scroll
+            }
+            else if (document.scrollingElement) {
+                document.scrollingElement.scrollTop = 0 // on other views reset scroll
+            }
         }
     }
 
@@ -130,7 +124,8 @@ export default class WebradioApp {
     private render() {
         const tabs = this.tabs
         const tabTitles = tabs.map(tab => div({class:"tab flexible vertical", onClick:()=>this.changeTab(tab)},
-                                            span({class:"title", text: tab.title})
+                                            span({class:"title", text: tab.title}),
+                                            span({class:"selection", visible: calc(()=> this.selectedTab == tab )})
         ))
         // const allTabs = [this.searchTab].concat(tabs)
         // const tabContent = allTabs.map(tab => tab.content(tab == selectedTab ? "visible" : "hidden"))
