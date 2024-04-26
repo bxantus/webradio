@@ -4,7 +4,8 @@
   "version": "1.0.2",
   "private": true,
   "scripts": {
-    "watch": "tsc --watch -p ./src"
+    "watch":  "tsc --watch -p ./src",
+    "bundle-serve": "esbuild --sourcemap --bundle src/index.ts --outfile=public/bundle.js --servedir=public --watch"
   },
   "dependencies": {
     "@types/howler": "^2.1.2",
