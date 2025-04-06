@@ -5,7 +5,7 @@ export default class About extends React.Component<{className:string}> {
         return <div className={"about " + this.props.className} >
             <h2>About webradio</h2>
             <p>
-                Version: 1.0.2 
+                Version: 1.0.3 
             </p>
             <p>
                 Open source webradio implementation using React. 
