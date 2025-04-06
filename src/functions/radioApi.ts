@@ -84,6 +84,11 @@ function toStation(r:RadioStation):Station {
     }
 }
 
+export interface SearchResults {
+    stations: Station[] 
+    error:string|undefined
+}
+
 // api docs at: https://api.radio-browser.info/
 // and https://de1.api.radio-browser.info/#Advanced_station_search
 export class RadioSearch {
@@ -91,7 +96,10 @@ export class RadioSearch {
     private offset = 0
     private _hasMoreResults = false
 
-    results:Station[] = []
+    results:SearchResults = { 
+        stations: [], 
+        error: undefined 
+    }
     constructor(query: Query) {
         this.query = query
         if (this.query.limit == undefined)
@@ -100,15 +108,20 @@ export class RadioSearch {
 
     /// @return with the number of stations found
     async search() {
-        const apiUrl = await getApiUrl()
-        // compute url
-        let url = `${apiUrl}/stations/search?name=${this.query.name}&order=votes&reverse=true&limit=${this.query.limit}&offset=${this.offset}`
-        // do the stuff
-        let results = await fetch(url).then(res => res.json())
-        let res:Station[] = results.map(toStation)
-        this.results.push(...res)
-        this.offset = this.results.length
-        this._hasMoreResults = res.length == this.query.limit // when fever results are returned, then no more results are available
+        try {
+            const apiUrl = await getApiUrl()
+            // compute url
+            let url = `${apiUrl}/stations/search?name=${this.query.name}&order=votes&reverse=true&limit=${this.query.limit}&offset=${this.offset}`
+            // do the stuff
+            let results = await fetch(url).then(res => res.json())
+            let res:Station[] = results.map(toStation)
+            this.results.stations.push(...res)
+            this.offset = this.results.stations.length
+            this._hasMoreResults = res.length == this.query.limit // when fever results are returned, then no more results are available
+        } catch (err) {
+            this.results.error = (err as Error).message 
+            this.results.stations = []
+        }
     }
 
     get hasMoreResults() { return this._hasMoreResults }
