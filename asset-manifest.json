@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/webradio/static/css/main.2b39e867.css",
-    "main.js": "/webradio/static/js/main.f90f0206.js",
+    "main.js": "/webradio/static/js/main.756fd5e8.js",
     "index.html": "/webradio/index.html",
     "main.2b39e867.css.map": "/webradio/static/css/main.2b39e867.css.map",
-    "main.f90f0206.js.map": "/webradio/static/js/main.f90f0206.js.map"
+    "main.756fd5e8.js.map": "/webradio/static/js/main.756fd5e8.js.map"
   },
   "entrypoints": [
     "static/css/main.2b39e867.css",
-    "static/js/main.f90f0206.js"
+    "static/js/main.756fd5e8.js"
   ]
 }
