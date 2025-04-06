@@ -100,6 +100,7 @@ export class RadioSearch {
 
     /// @return with the number of stations found
     async search() {
+        const apiUrl = await getApiUrl()
         // compute url
         let url = `${apiUrl}/stations/search?name=${this.query.name}&order=votes&reverse=true&limit=${this.query.limit}&offset=${this.offset}`
         // do the stuff
@@ -114,6 +115,7 @@ export class RadioSearch {
 }
 
 export async function getStreamUrl(station:Station) {
+    const apiUrl = await getApiUrl()
     var url = `${apiUrl}/url/${station.id}`;
     var res = await fetch(url).then(res=>res.json())
     if (res && res.url)
@@ -122,6 +124,7 @@ export async function getStreamUrl(station:Station) {
 }
 
 export async function refreshStation(station:Station) {
+    const apiUrl = await getApiUrl()
     var url = `${apiUrl}/stations/byuuid/${station.id}` // get info for this station only
     var res = await fetch(url).then(res=>res.json())
     // will return an array with one item
@@ -131,6 +134,7 @@ export async function refreshStation(station:Station) {
 }
 
 export async function voteForStation(station:Station) {
+    const apiUrl = await getApiUrl()
     var url = `${apiUrl}/vote/${station.id}`; 
     // will return status of vote (in the ok field)
     try {
@@ -144,7 +148,36 @@ export async function voteForStation(station:Station) {
     }
 }
 
-const apiUrl = "https://de1.api.radio-browser.info/json" // todo: should do dns lookup as the docs ask
+interface BaseUrl {
+    ip: string
+    name: string
+}
+
+function apiUrlFetcher() {
+    let apiUrl:string|Promise<string>|undefined;
+    
+    const doFetch = async () => {
+        const baseUrls = (await fetch("https://all.api.radio-browser.info/json/servers")
+                         .then(res => res.json())) as BaseUrl[];
+        // filter the baseUrls array with unique names
+        const uniqueUrls = baseUrls.filter((url, index, self) =>
+            index === self.findIndex((u) => u.name === url.name)
+        );
+        // pick one randomly
+        const randomIndex = Math.floor(Math.random() * uniqueUrls.length);
+        const url = uniqueUrls[randomIndex].name 
+        return url.startsWith("http://") || url.startsWith("https://") 
+                    ? `${url}/json` 
+                    : `https://${url}/json` 
+    }    
+    return async () => {
+        if (!apiUrl) 
+            apiUrl = doFetch()
+        return apiUrl
+    }
+}
+
+export const getApiUrl = apiUrlFetcher()
 
 export function needsUpgrade(station:Station) {
     // from v0 to v1 (codec and bitrate added)
